@@ -96,6 +96,13 @@
 
                         
                         <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
                             <a href="/about/">About</a>
                         </li>
                         
@@ -104,13 +111,6 @@
                         
                         <li>
                             <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archives/">Archives</a>
                         </li>
                         
                     
@@ -333,15 +333,15 @@
 <p>​    当在一幅图中出现多种曲线时，用户可以根据自己的需要，利用legend命令对不同的图例进行说明。</p>
 <p><strong>实例：</strong></p>
 <p>1/绘制“余弦波”图形。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;linspace(0,10*pi,100);</span><br><span class="line">plot(x,cos(x));</span><br><span class="line">title(&#39;余弦波&#39;);</span><br><span class="line">xlabel(&#39;x坐标&#39;);</span><br><span class="line">ylabel(&#39;y坐标&#39;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">x</span>=linspace(0,10<span class="comment">*pi,100);</span></span><br><span class="line">plot(<span class="meta">x</span><span class="meta">,cos(</span><span class="meta">x</span>));</span><br><span class="line"><span class="meta">title</span>(<span class="string">&#x27;余弦波&#x27;</span>);</span><br><span class="line">xlabel(<span class="string">&#x27;x坐标&#x27;</span>);</span><br><span class="line">ylabel(<span class="string">&#x27;y坐标&#x27;</span>);</span><br></pre></td></tr></table></figure>
 
 <p>2/绘制倒数函数</p>
 <p>绘制倒数函数y=1/x在[0,2]上，标出1/4,1/2,5/4,7/4在图像上的位置，并在曲线上标出函数名。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;0:0.1:2;</span><br><span class="line">plot(x,1.&#x2F;x);</span><br><span class="line">title(&#39;倒数函数&#39;);</span><br><span class="line">xlabel(&#39;x&#39;),ylabel(&#39;1.&#x2F;x&#39;);</span><br><span class="line">text(0.25,1.&#x2F;0.25,&#39;&lt;--1.&#x2F;0.25&#39;);</span><br><span class="line">text(0.5,1.&#x2F;0.5,&#39;1.&#x2F;0.5\rightarrow&#39;,&#39;HorizontalAlignment&#39;,&#39;right&#39;);</span><br><span class="line">gtext(&#39;y&#x3D;1.&#x2F;x&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">x</span>=<span class="number">0</span>:<span class="number">0</span>.<span class="number">1</span>:<span class="number">2</span>;</span><br><span class="line"><span class="attribute">plot</span>(x,<span class="number">1</span>./x);</span><br><span class="line"><span class="attribute">title</span>(&#x27;倒数函数&#x27;);</span><br><span class="line"><span class="attribute">xlabel</span>(&#x27;x&#x27;),ylabel(&#x27;<span class="number">1</span>./x&#x27;);</span><br><span class="line"><span class="attribute">text</span>(<span class="number">0</span>.<span class="number">25</span>,<span class="number">1</span>./<span class="number">0</span>.<span class="number">25</span>,&#x27;&lt;--<span class="number">1</span>./<span class="number">0</span>.<span class="number">25</span>&#x27;);</span><br><span class="line"><span class="attribute">text</span>(<span class="number">0</span>.<span class="number">5</span>,<span class="number">1</span>./<span class="number">0</span>.<span class="number">5</span>,&#x27;<span class="number">1</span>./<span class="number">0</span>.<span class="number">5</span>\rightarrow&#x27;,&#x27;HorizontalAlignment&#x27;,&#x27;right&#x27;);</span><br><span class="line"><span class="attribute">gtext</span>(&#x27;y=<span class="number">1</span>./x&#x27;)</span><br></pre></td></tr></table></figure>
 
 <p>3/在同一个图形窗口内绘制三角函数</p>
 <p>y1=sinx,y2=cosx,y3=tanx,并作出相应的图例标注。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;linspace(0,2*pi,100);</span><br><span class="line">y1&#x3D;sin(x);</span><br><span class="line">y2&#x3D;cos(x);</span><br><span class="line">y3&#x3D;tan(x);</span><br><span class="line">plot(x,y1,&#39;md&#39;,x,y2,&#39;b^&#39;,x,y3,&#39;:+ &#39;);</span><br><span class="line">title(&#39;三角函数&#39;);</span><br><span class="line">xlabel(&#39;x&#39;),ylabel(&#39;y&#39;);</span><br><span class="line">axis([0,7,-2,3])</span><br><span class="line">legend(&#39;sin(x)&#39;,&#39;cos(x)&#39;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">x</span>=linspace(0,2<span class="comment">*pi,100);</span></span><br><span class="line">y1<span class="meta">=sin(</span><span class="meta">x</span>);</span><br><span class="line">y2<span class="meta">=cos(</span><span class="meta">x</span>);</span><br><span class="line">y3<span class="meta">=tan(</span><span class="meta">x</span>);</span><br><span class="line">plot(<span class="meta">x</span>,y1,<span class="string">&#x27;md&#x27;</span>,<span class="meta">x</span>,y2,<span class="string">&#x27;b^&#x27;</span>,<span class="meta">x</span>,y3,<span class="string">&#x27;:+ &#x27;</span>);</span><br><span class="line"><span class="meta">title</span>(<span class="string">&#x27;三角函数&#x27;</span>);</span><br><span class="line">xlabel(<span class="string">&#x27;x&#x27;</span>),ylabel(<span class="string">&#x27;y&#x27;</span>);</span><br><span class="line">axis([0,7,-2,3])</span><br><span class="line">legend(<span class="meta">&#x27;sin(</span><span class="meta">x</span>)<span class="string">&#x27;,&#x27;</span>cos(<span class="meta">x</span>)<span class="string">&#x27;)</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -352,12 +352,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2020/08/24/v10-0-0破解安装/" data-toggle="tooltip" data-placement="top" title="xmind2020 v10.0.0破解安装">&larr; Previous Post</a>
+                            <a href="/2020/08/24/matlab学习笔记-三维动画演示/" data-toggle="tooltip" data-placement="top" title="matlab学习笔记|三维动画演示">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/08/24/信息系统分析与设计（五）_系统实施/" data-toggle="tooltip" data-placement="top" title="信息系统分析与设计|信息系统实施">Next Post &rarr;</a>
+                            <a href="/2020/08/24/matlab学习笔记/" data-toggle="tooltip" data-placement="top" title="matlab学习笔记">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
