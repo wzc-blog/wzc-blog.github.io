@@ -13,11 +13,11 @@
 
     <title>
         
-          SPSS安装 - Wzc的博客 | Wzc&#39;s Blog
+          数据库索引 - Wzc的博客 | Wzc&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/SPSS安装/">
+    <link rel="canonical" href="https://wzc-blog.github.io/2021/03/31/索引/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -171,14 +171,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
-                    <h1>SPSS安装</h1>
+                    <h1>数据库索引</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by wzc on
-                        2020-08-24
+                        2021-03-31
                     </span>
                 </div>
             </div>
@@ -197,10 +197,30 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h4 id="SPSS安装"><a href="#SPSS安装" class="headerlink" title="SPSS安装"></a>SPSS安装</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g">https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g</a></p>
-<p>许可证执行代码（显示过期，仍然能用）：</p>
-<p>KLY76DO3FVLOHZORYZSY66NKAMBMUOW5AT7J5GEN5AUE5WDY4YEC4PGOCODL236QF86LJK8XXUI73WT4TZEI3M92CP</p>
-<p>安装包位置：D:/SPSS 24 64位</p>
+                <p>根据索引对数据表中记录顺序的影响，索引分为聚集索引和非聚集索引。</p>
+<h4 id="聚集索引"><a href="#聚集索引" class="headerlink" title="聚集索引"></a>聚集索引</h4><p>聚集索引的特点是数据文件中的记录按照索引键指引的顺序排列，使得具有相同索引键值的记录在物理上聚集在一起。由于一个数据表只能有一种实际的存储顺序，因此在一个数据表中只能建立一个聚集索引。</p>
+<p>理解：如果基于某个字段建立了一个聚集索引（如主键），那么表中的记录会自动按照该字段的顺序进行存储。</p>
+<p>因此可以利用数据表本身的顺序来查找记录。</p>
+<p><strong>【重要】将数据存储与索引放到了一块，找到索引也就找到了数据（叶子结点是数据块）</strong></p>
+<h4 id="非聚集索引"><a href="#非聚集索引" class="headerlink" title="非聚集索引"></a>非聚集索引</h4><p>非聚集索引不会影响数据表中记录的实际存储顺序，一个表只能有一个聚集索引，但可以有多个非聚集索引。</p>
+<p>理解：在已经建立索引的前提条件下，对另外字段建立一个非聚集索引，该字段索引中是升序排列的，但整个表的记录的<strong>实际存储顺序</strong>不会因该索引的创建而发生变化。</p>
+<p><strong>【重要】非聚集索引叶节点仍然是索引节点，只是有一个指针指向对应的数据块(一般是主键/聚集索引)，因此当查询的字段不在叶子结点中时，需要进行二次查询</strong></p>
+<h4 id="区别和优缺点"><a href="#区别和优缺点" class="headerlink" title="区别和优缺点"></a>区别和优缺点</h4><p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gosol8l5p4j30hl0ct3zv.jpg" alt="2q05hsflfa"></p>
+<ol>
+<li>InnoDB使用的是聚簇索引，将<strong>主键组织到一棵B+树</strong>中，而<strong>行数据就储存在叶子节点</strong>上，若使用”where id = 14”这样的条件查找主键，则<strong>按照B+树的检索算法即可查找到对应的叶节点，之后获得行数据</strong>。</li>
+<li>若<strong>对Name列进行条件搜索，则需要两个步骤</strong>：<strong>第一步在辅助索引B+树中检索Name，到达其叶子节点获取对应的主键</strong>。第二步<strong>使用主键在主索引B+树种再执行一次B+树检索操作，最终到达叶子节点即可获取整行数据</strong>。（<strong>重点在于通过其他键需要建立辅助索引</strong>）</li>
+<li>MyISM使用的是非聚簇索引，<strong>非聚簇索引的两棵B+树看上去没什么不同</strong>，节点的结构完全一致只是存储的内容不同而已，主键索引B+树的节点存储了主键，辅助键索引B+树存储了辅助键。表数据存储在独立的地方，这两颗B+树的叶子节点都使用一个地址指向真正的表数据，对于表数据来说，这两个键没有任何差别。由于<strong>索引树是独立的，通过辅助键检索无需访问主键的索引树</strong>。</li>
+</ol>
+<h4 id="什么情况下设置了索引但是无法使用"><a href="#什么情况下设置了索引但是无法使用" class="headerlink" title="什么情况下设置了索引但是无法使用"></a>什么情况下设置了索引但是无法使用</h4><ul>
+<li>以“%”开头的LIKE语句，模糊匹配</li>
+<li>OR语句前后没有同时使用索引（OR前后字段都要创建索引才行）</li>
+<li>数据类型出现隐式转化（如varchar不加单引号的话可能会自动转换为int型）</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>聚集索引就是索引和记录紧密的在一起，叶子节点就是数据块</li>
+<li>非聚集索引 索引文件和数据文件分开存放，索引文件的叶子页只保存了主键值，要定位还要再根据主键值查找</li>
+<li>聚集索引只有一个，非聚集索引可以有多个</li>
+</ul>
 
 
                 <hr>
@@ -210,12 +230,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/03/31/复试准备-操作系统/" data-toggle="tooltip" data-placement="top" title="操作系统-复试">&larr; Previous Post</a>
+                            <a href="/2021/03/31/数据库的规范化/" data-toggle="tooltip" data-placement="top" title="数据库的规范化">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/08/24/IIS搭建-网云穿/" data-toggle="tooltip" data-placement="top" title="软件安装">Next Post &rarr;</a>
+                            <a href="/2021/03/31/认识容器和学习Docker/" data-toggle="tooltip" data-placement="top" title="容器学习">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -262,7 +282,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
                 </section>
@@ -302,8 +322,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
-    var disqus_url = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
+    var disqus_identifier = "https://wzc-blog.github.io/2021/03/31/%E7%B4%A2%E5%BC%95/";
+    var disqus_url = "https://wzc-blog.github.io/2021/03/31/%E7%B4%A2%E5%BC%95/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

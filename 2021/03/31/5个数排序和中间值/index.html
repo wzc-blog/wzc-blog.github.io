@@ -13,11 +13,11 @@
 
     <title>
         
-          SPSS安装 - Wzc的博客 | Wzc&#39;s Blog
+          5个数排序7次比较，中间值6次 - Wzc的博客 | Wzc&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/SPSS安装/">
+    <link rel="canonical" href="https://wzc-blog.github.io/2021/03/31/5个数排序和中间值/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -171,14 +171,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
                         
                     </div>
-                    <h1>SPSS安装</h1>
+                    <h1>5个数排序7次比较，中间值6次</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by wzc on
-                        2020-08-24
+                        2021-03-31
                     </span>
                 </div>
             </div>
@@ -197,10 +197,32 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h4 id="SPSS安装"><a href="#SPSS安装" class="headerlink" title="SPSS安装"></a>SPSS安装</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g">https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g</a></p>
-<p>许可证执行代码（显示过期，仍然能用）：</p>
-<p>KLY76DO3FVLOHZORYZSY66NKAMBMUOW5AT7J5GEN5AUE5WDY4YEC4PGOCODL236QF86LJK8XXUI73WT4TZEI3M92CP</p>
-<p>安装包位置：D:/SPSS 24 64位</p>
+                <p>6次比较求5个数的中间值，7次比较对5个数排序</p>
+<blockquote>
+<p>6次比较求中间值（a，b，c，d，e)</p>
+<ul>
+<li>任取两组数，比较，如a&gt;b,c&gt;d     —两次</li>
+<li>再将两组数中的最大值进行比较，假设a&gt;c，得到a&gt;c&gt;d,a&gt;b.   —1次</li>
+<li>由上步比较可知a必定不是中间值，去掉，剩余c&gt;d,b,e. 此时中间值为第2较大者</li>
+<li>b和e比较，如b&gt;e，此时得到c&gt;d和b&gt;e。      —1次</li>
+<li>b和c比较，如b&gt;c，此时得到b&gt;c&gt;d和b&gt;e，去掉b。      —1次</li>
+<li>剩余c&gt;d和e，e和c比较，较大者则为中间值。    —1次</li>
+<li>共计需要6次比较</li>
+</ul>
+</blockquote>
+<img src="https://tva1.sinaimg.cn/large/008eGmZEgy1gp216anpaxj30u016pq9q.jpg" style="zoom: 50%;" />
+
+<blockquote>
+<p>7次比较次数</p>
+<ul>
+<li>任取两组数比较，如a&gt;b,c&gt;d            —2次</li>
+<li>比较a和c，假设a&gt;c,得到a&gt;c&gt;d和a&gt;b                —1次</li>
+<li>将e插入到a&gt;c&gt;d中，二分法，假设得到a&gt;c&gt;e&gt;d                  —2次</li>
+<li>将b插入，因为a&gt;b，故二分法比较两次即可。                     —2次</li>
+<li>总共需要7次</li>
+</ul>
+</blockquote>
+<p>若第三步得到结果为e&gt;a&gt;c&gt;d，则b和c、d分别比较，也是两次</p>
 
 
                 <hr>
@@ -209,13 +231,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/2021/03/31/复试准备-操作系统/" data-toggle="tooltip" data-placement="top" title="操作系统-复试">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/2020/08/24/IIS搭建-网云穿/" data-toggle="tooltip" data-placement="top" title="软件安装">Next Post &rarr;</a>
+                            <a href="/2021/03/31/Listening/" data-toggle="tooltip" data-placement="top" title="英语听力对话">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -262,7 +280,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#算法" title="算法">算法</a>
                         
                     </div>
                 </section>
@@ -302,8 +320,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
-    var disqus_url = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
+    var disqus_identifier = "https://wzc-blog.github.io/2021/03/31/5%E4%B8%AA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E4%B8%AD%E9%97%B4%E5%80%BC/";
+    var disqus_url = "https://wzc-blog.github.io/2021/03/31/5%E4%B8%AA%E6%95%B0%E6%8E%92%E5%BA%8F%E5%92%8C%E4%B8%AD%E9%97%B4%E5%80%BC/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -13,11 +13,11 @@
 
     <title>
         
-          SPSS安装 - Wzc的博客 | Wzc&#39;s Blog
+          数据库的规范化 - Wzc的博客 | Wzc&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/SPSS安装/">
+    <link rel="canonical" href="https://wzc-blog.github.io/2021/03/31/数据库的规范化/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -171,14 +171,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
-                    <h1>SPSS安装</h1>
+                    <h1>数据库的规范化</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by wzc on
-                        2020-08-24
+                        2021-03-31
                     </span>
                 </div>
             </div>
@@ -197,10 +197,84 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h4 id="SPSS安装"><a href="#SPSS安装" class="headerlink" title="SPSS安装"></a>SPSS安装</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g">https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g</a></p>
-<p>许可证执行代码（显示过期，仍然能用）：</p>
-<p>KLY76DO3FVLOHZORYZSY66NKAMBMUOW5AT7J5GEN5AUE5WDY4YEC4PGOCODL236QF86LJK8XXUI73WT4TZEI3M92CP</p>
-<p>安装包位置：D:/SPSS 24 64位</p>
+                <h5 id="0-函数依赖和码"><a href="#0-函数依赖和码" class="headerlink" title="0 函数依赖和码"></a>0 函数依赖和码</h5><ol>
+<li><p>完全函数依赖和部分函数依赖</p>
+<p>在R(U)中，如果X-&gt;Y，并且对于X的任何一个真子集X‘都有X’↛Y，则称Y对X完全函数依赖。相反，称为部分函数依赖</p>
+</li>
+<li><p>传递函数依赖</p>
+<p>如果X-&gt;Y，Y-&gt;Z,且Y不包含于X，Y↛X，则称Z传递函数依赖于X。</p>
+<ol start="3">
+<li>码</li>
+</ol>
+<blockquote>
+<p>内容参考于<a target="_blank" rel="noopener" href="https://blog.csdn.net/sumaliqinghua/article/details/85872446">https://blog.csdn.net/sumaliqinghua/article/details/85872446</a></p>
+</blockquote>
+<p><img src="/Users/zechangwang/Desktop/20190625173457198.png" alt="20190625173457198"></p>
+<ul>
+<li>码=超键：能够唯一标识<strong>一条记录</strong>的属性或属性集(要标识一行数据)<ul>
+<li>如：学号、学号+姓名、学号+性别、全码等</li>
+</ul>
+</li>
+<li>候选码：能够唯一标识一条记录的<strong>最小</strong>属性集<ul>
+<li>学生信息表中：学号和身份证号为两个候选码</li>
+<li>反例：仓库号-&gt;所在区域，所在区域-&gt;区域主管，但所在区域不是候选码，也就不是主属性了</li>
+</ul>
+</li>
+<li>主键：在候选码中人为选的</li>
+<li>主属性：所有候选码包含的属性</li>
+<li>非主属性：所有侯选码不包含的属性</li>
+</ul>
+<ol start="4">
+<li>练习题</li>
+</ol>
+<blockquote>
+<p>见<a target="_blank" rel="noopener" href="https://blog.csdn.net/sumaliqinghua/article/details/85872446">https://blog.csdn.net/sumaliqinghua/article/details/85872446</a></p>
+</blockquote>
+</li>
+</ol>
+<h5 id="1-第一范式"><a href="#1-第一范式" class="headerlink" title="1 第一范式"></a>1 第一范式</h5><p>​    定义：如果关系模式R中的所有属性均为简单属性，即每个属性都是不可再分的，则称R属于第一范式，简称1NF </p>
+<p>​    <strong>要点：每个属性都是不可再分的</strong></p>
+<h5 id="2-第二范式"><a href="#2-第二范式" class="headerlink" title="2 第二范式"></a>2 第二范式</h5><p>​    定义：如果关系模式R属于第一范式，且每个非主属性都完全函数依赖于R的码，则称R属于第二范式，简称2NF</p>
+<p>​    <strong>要点：每个</strong>非主属性都完全函数依赖于码</p>
+<p>​    例如：</p>
+<p>​    有关系模式WAE（仓库号，设备号，数量，所在区域，区域主管），其中，</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（仓库号，设备号）-&gt;数量</span><br><span class="line"></span><br><span class="line">  仓库号-&gt;所在区域，（仓库号，设备号）-&gt;所在区域</span><br><span class="line"></span><br><span class="line">	仓库号-&gt;区域主管，（仓库号，设备号）-&gt;区域主管</span><br></pre></td></tr></table></figure>
+
+<p>​    可知，仓库号、设备号为主属性，数量、所在区域、区域主管为非主属性。所有属性均不可再分，所以属于1NF。但所在区域和区域主管两个非主属性不是完全函数依赖关系，所以不是2NF范式</p>
+<p>​    规范办法：投影分解法</p>
+<p>​    将上述WAE关系模式分解为：</p>
+<p>​    WE（仓库号，设备号，数量）</p>
+<p>​    WA（仓库号，所在区域，区域主管）</p>
+<p>​    其中，WE码为（仓库号，设备号）函数依赖为</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">（仓库号，设备号）-&gt;数量</span><br></pre></td></tr></table></figure>
+
+<p>​    WA码为（仓库号），非主属性为所在区域和区域主管，函数依赖为</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">（仓库号）-&gt;所在区域，所在区域-&gt;区域主管，（仓库号）-&gt;区域主管【传递】</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-第三范式"><a href="#3-第三范式" class="headerlink" title="3 第三范式"></a>3 第三范式</h5><p>​    定义：如果关系模式R属于2NF，且每个非主属性都不传递函数依赖于R的候选码，则称R属于第三范式，简称3NF。</p>
+<p>​    <strong>要点：</strong>每个<strong>非主属性</strong>都不存在传递函数依赖</p>
+<p>​    例如：</p>
+<p>​    在上述关系模式WA中，存在传递函数依赖，不符合3NF 范式</p>
+<pre><code> 规范方法：投影分解法
+</code></pre>
+<p>​    将WA分解为两个模式：</p>
+<p>​    W（仓库号，所在区域）</p>
+<p>​    A（所在区域，区域主管）</p>
+<p>​    在W关系中，码为仓库号，函数依赖为：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">仓库号-&gt;所在区域</span><br></pre></td></tr></table></figure>
+
+<p>​    在A关系中，码为所在区域，函数依赖为：</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">所在区域-&gt;区域主管</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-BC范式-BCNF范式"><a href="#4-BC范式-BCNF范式" class="headerlink" title="4 BC范式/BCNF范式"></a>4 BC范式/BCNF范式</h5><p>定义：如果关系模式R属于1NF，且对于所有的函数依赖X- &gt;Y（Y∉X）,决定因素X都包含了R的一个候选码，则称R属于BC范式，简称BCNF</p>
+<p><strong>要点（特征）：</strong></p>
+<ul>
+<li>所有非主属性都完全函数依赖于每个候选码</li>
+<li>所有主属性都完全依赖于每个不包含它的候选码</li>
+<li>没有任何属性完全函数依赖于非码的任何一组属性</li>
+</ul>
+<p>BC范式既检查主属性，又检查非主属性，可以说，任何满足BC范式的关系都必然满足第三范式。</p>
+<p>上述关系W和A中，都只有一个主键，作为唯一的候选码，且都只有一个函数依赖，为完全函数依赖，符合BC范式的条件。</p>
 
 
                 <hr>
@@ -210,12 +284,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/03/31/复试准备-操作系统/" data-toggle="tooltip" data-placement="top" title="操作系统-复试">&larr; Previous Post</a>
+                            <a href="/2021/03/31/复试题集/" data-toggle="tooltip" data-placement="top" title="复试准备">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/08/24/IIS搭建-网云穿/" data-toggle="tooltip" data-placement="top" title="软件安装">Next Post &rarr;</a>
+                            <a href="/2021/03/31/索引/" data-toggle="tooltip" data-placement="top" title="数据库索引">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -262,7 +336,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
                 </section>
@@ -302,8 +376,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
-    var disqus_url = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
+    var disqus_identifier = "https://wzc-blog.github.io/2021/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%A7%84%E8%8C%83%E5%8C%96/";
+    var disqus_url = "https://wzc-blog.github.io/2021/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%A7%84%E8%8C%83%E5%8C%96/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -13,11 +13,11 @@
 
     <title>
         
-          SPSS安装 - Wzc的博客 | Wzc&#39;s Blog
+          数据库保护 - Wzc的博客 | Wzc&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/SPSS安装/">
+    <link rel="canonical" href="https://wzc-blog.github.io/2021/03/31/数据库保护/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -171,14 +171,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
-                    <h1>SPSS安装</h1>
+                    <h1>数据库保护</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by wzc on
-                        2020-08-24
+                        2021-03-31
                     </span>
                 </div>
             </div>
@@ -197,10 +197,109 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h4 id="SPSS安装"><a href="#SPSS安装" class="headerlink" title="SPSS安装"></a>SPSS安装</h4><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g">https://mp.weixin.qq.com/s/o9hegPAZU2UaGy7Ov2qu5g</a></p>
-<p>许可证执行代码（显示过期，仍然能用）：</p>
-<p>KLY76DO3FVLOHZORYZSY66NKAMBMUOW5AT7J5GEN5AUE5WDY4YEC4PGOCODL236QF86LJK8XXUI73WT4TZEI3M92CP</p>
-<p>安装包位置：D:/SPSS 24 64位</p>
+                <h3 id="1-事务"><a href="#1-事务" class="headerlink" title="1 事务"></a>1 事务</h3><p>定义：事务(Transaction)是数据库应用中构成单一逻辑工作单元的操作集合。</p>
+<h4 id="特性：ACID"><a href="#特性：ACID" class="headerlink" title="特性：ACID"></a>特性：ACID</h4><ul>
+<li>原子性Atomicity<ul>
+<li>保证事务包含的一组更新操作是原子不可分的，要么不做，要么全做</li>
+</ul>
+</li>
+<li>一致性Consistency<ul>
+<li>要求事务执行完成后将数据库从一个一致性状态转变到另一个一致性状态</li>
+<li>一致性状态是指数据库中的数据满足完整性约束，是一种以一致性状态为基础的逻辑属性</li>
+</ul>
+</li>
+<li>隔离性Isolation<ul>
+<li>一个事务的执行不能被其他事务干扰，即一个事务内部的操作即使用的数据对并发的其他事务是隔离的，并发执行的事务之间不能相互干扰</li>
+</ul>
+</li>
+<li>持久性Durability<ul>
+<li>事务一旦提交，那么对数据库所做的修改将是持久的</li>
+<li>即使系统故障或崩溃也保证是持久的</li>
+</ul>
+</li>
+</ul>
+<h4 id="MySQL事务的隔离级别"><a href="#MySQL事务的隔离级别" class="headerlink" title="MySQL事务的隔离级别"></a>MySQL事务的隔离级别</h4><blockquote>
+<p>MySQL的事务隔离级别共有四个，分别是读未提交、读已提交、可重复读以及可串行化</p>
+<p>MySQL的事务隔离级别的作用就是让事务之间相互隔离，互不影响，这样可以保证事务的一致性。</p>
+<p>隔离级别/隔离级别对性能的影响：可串行化&gt;可重复读&gt;读已提交&gt;读未提交</p>
+<p>由此可见，隔离级别越高，所需消耗的MySQL性能越大(如事务并发严重性)，为了平衡二者，一般建议设置的隔离级别为可重复读，MySQL默认的隔离级别也是可重复读。</p>
+<p><strong>幻读</strong>是指一个事务先根据某些条件查询出一些记录，之后另一个事务又向表中插入了符合这些条件的记录，原先的事务再次按照该条件查询时，能把另一个事务插入的记录也读出来。（幻读在读未提交、读已提交、可重复读隔离级别都可能会出现）</p>
+</blockquote>
+<ol>
+<li><p>读未提交</p>
+<p>在读未提交隔离级别下，事务A可以读取事务B修改过但未提交的数据，不加锁</p>
+<p>在这种级别下，可能发生脏读、不可重读和幻读问题，一般很少用此级别</p>
+</li>
+<li><p>读已提交</p>
+<p>在读已提交隔离级别下，事务B只能在事务A修改过并且已提交后才能读取到事务B修改的数据</p>
+<p>解决了脏读问题，但可能发生不可重复读和幻读问题，一般很少使用此隔离级别</p>
+</li>
+<li><p>可重复读</p>
+<p>在可重复读的级别下，保证了同一事务读取相同数据，MySQL使用行级锁，其他事务不能对该行修改，但是可以插入一行数据。</p>
+<p>解决了脏读和不可重复读的问题，但可能发生幻读问题。</p>
+</li>
+<li><p>可串行化</p>
+<p>各种问题都不会发生，通过加锁实现（MySQL行锁和间隙锁），耗费数据库性能，一般不使用，MySQL默认是可重复读。</p>
+</li>
+</ol>
+<p><img src="https://tva1.sinaimg.cn/large/008eGmZEly1gossbwy6a2j30z00u0wjx.jpg" alt="image-20210322152340636"></p>
+<p>总结：</p>
+<ul>
+<li>读未提交：A可读B修改且<strong>未</strong>提交的数据</li>
+<li>读已提交：A可读B修改且<strong>已</strong>提交的数据</li>
+<li>可重复读：A在提交后，才能读取B修改且已提交的数据</li>
+<li>可串行化：最高级别 ，加锁</li>
+</ul>
+<h3 id="2-并发控制"><a href="#2-并发控制" class="headerlink" title="2 并发控制"></a>2 并发控制</h3><h4 id="2-1-并发操作与数据的不一致性"><a href="#2-1-并发操作与数据的不一致性" class="headerlink" title="2.1 并发操作与数据的不一致性"></a>2.1 并发操作与数据的不一致性</h4><ul>
+<li>丢失更新<ul>
+<li>事务2执行时可能丢失事务1对数据库的更新<ul>
+<li>T1读-&gt;T2读-&gt;T1修改-&gt;T2修改       T2读取了错误数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>不可重读<ul>
+<li>事务1读取数据后，事务2对数据进行了更新，使事务1无法再现前一次读取结果<ul>
+<li>事务1读取数据后，事务2对数据进行更新，当事务1再次读取时得到与前一次不同的值</li>
+<li>事务1读取数据后，事务2对数据进行删除，当事务1再次读取时，发现数据消失了</li>
+<li>事务1读取数据后，事务2对数据进行插入，当事务1再次读取时，发现多了一些数据（幻读）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>污读/脏读<ul>
+<li>一个事务读到了另一个未提交事务修改过的数据</li>
+<li>读脏数据是指事务1修改某一数据，并将其写回磁盘，事务2读取同一数据后，事务1被撤销了，事务1修改的数据恢复原值，事务2读到的数据就与原来的数据不一致，则事务2读到的数据就是脏数据，即不正确的数据</li>
+</ul>
+</li>
+</ul>
+<p>例如：数据原来是A，事务1是将A改为B，最后改为C</p>
+<p>数据变化为A-&gt;B-&gt;C</p>
+<p>则：事务2读数据时，</p>
+<ul>
+<li>读的是B，为脏读，实际应读为A或C</li>
+<li>第一次读的是A，再次需要读时是B，两次不一致，为不可重复读</li>
+<li>第一次读的是A，再次需要读时是A和C，多读出来C，则为幻读</li>
+</ul>
+<h4 id="2-2-封锁"><a href="#2-2-封锁" class="headerlink" title="2.2 封锁"></a>2.2 封锁</h4><p>实现并发控制的方法主要有两种，即封锁(Lock)技术和时标(Time Stamping)技术 </p>
+<p>封锁类型有：</p>
+<ul>
+<li>排他锁/ X锁/写锁<ul>
+<li>若事务T对数据对象加上X锁，则只允许T读取和修改A，其他任何事物都<strong>不能再对A加任何类型</strong>的锁，直到事物T释放A上的锁，保证了其他事务在T释放A上的锁之前不能再读取和修改A</li>
+<li>提问：为什么上了写锁，别的事务还可以读操作<ul>
+<li>因为InnoDB有MVCC机制(多版本并发控制)，可以使用<strong>快照读</strong>，而不会堵塞</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>共享锁/ S锁/读锁<ul>
+<li>若事务T对数据对象A加上S锁，则其他事务只能再对A加S锁，而<strong>不能加X锁</strong>，直到T释放A上的S锁。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-活锁和死锁"><a href="#2-3-活锁和死锁" class="headerlink" title="2.3 活锁和死锁"></a>2.3 活锁和死锁</h4><p>活锁：多个事务并发执行过程中可能存在某个机会获得锁的事务去永远无法获得锁的现象，这种现象称为活锁。可以采用先来先服务的策略预防。</p>
+<p>死锁：同操作系统</p>
+<p><strong>只有出现并发操作时才有可能出现死锁</strong></p>
 
 
                 <hr>
@@ -210,12 +309,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/2021/03/31/复试准备-操作系统/" data-toggle="tooltip" data-placement="top" title="操作系统-复试">&larr; Previous Post</a>
+                            <a href="/2021/03/31/Listening/" data-toggle="tooltip" data-placement="top" title="英语听力对话">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/2020/08/24/IIS搭建-网云穿/" data-toggle="tooltip" data-placement="top" title="软件安装">Next Post &rarr;</a>
+                            <a href="/2021/03/31/复试题集/" data-toggle="tooltip" data-placement="top" title="复试准备">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -262,7 +361,7 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#软件安装" title="软件安装">软件安装</a>
+                          <a class="tag" href="/tags/#数据库" title="数据库">数据库</a>
                         
                     </div>
                 </section>
@@ -302,8 +401,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "hexo-theme-huxblog";
-    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
-    var disqus_url = "https://wzc-blog.github.io/2020/08/24/SPSS%E5%AE%89%E8%A3%85/";
+    var disqus_identifier = "https://wzc-blog.github.io/2021/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%9D%E6%8A%A4/";
+    var disqus_url = "https://wzc-blog.github.io/2021/03/31/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%9D%E6%8A%A4/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
