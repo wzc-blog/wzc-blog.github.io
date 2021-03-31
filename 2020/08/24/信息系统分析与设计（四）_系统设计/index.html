@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          信息系统分析与设计|信息系统设计 - Wzc的博客 | Wzc&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/信息系统分析与设计（四）_系统设计/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wzc&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('post-bg-js-module.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#信息系统设计" title="信息系统设计">信息系统设计</a>
+                        
+                    </div>
+                    <h1>信息系统分析与设计|信息系统设计</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by wzc on
+                        2020-08-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="4-信息系统设计"><a href="#4-信息系统设计" class="headerlink" title="4 信息系统设计"></a>4 信息系统设计</h3><h4 id="4-1系统设计概念"><a href="#4-1系统设计概念" class="headerlink" title="4.1系统设计概念"></a>4.1系统设计概念</h4><p>​    任务：建立新系统的<strong>物理模型</strong>（系统在计算机内由哪些功能模块以何种方式构成）</p>
+<ul>
+<li>​    总体设计：硬件体系、软件体系、网络体系、模块体系设计（模块结构图）</li>
+<li>​    详细设计：文件或数据库设计;代码设计；输入/输出设计；模块设计</li>
+<li>​    提交系统设计的报告</li>
+</ul>
+<p>​    系统设计的特点：</p>
+<ul>
+<li>​    功能满足；</li>
+<li>​    系统的效率性；</li>
+<li>​    系统的可靠性；</li>
+<li>​    系统的工作质量；</li>
+<li>​    系统的可变性；</li>
+<li>​    系统的经济性</li>
+</ul>
+<p>​    系统设计的目标：可变性；易于理解；容易维护</p>
+<h4 id="4-2总体设计"><a href="#4-2总体设计" class="headerlink" title="4.2总体设计"></a>4.2总体设计</h4><h5 id="4-2-1总体设计内容"><a href="#4-2-1总体设计内容" class="headerlink" title="4.2.1总体设计内容"></a>4.2.1总体设计内容</h5><p>​        硬件体系、软件体系、网络体系、模块体系设计（模块结构图）</p>
+<h5 id="4-2-2模块结构图的构成要素"><a href="#4-2-2模块结构图的构成要素" class="headerlink" title="4.2.2模块结构图的构成要素"></a>4.2.2模块结构图的构成要素</h5><ul>
+<li><p>​        系统流程图——过程角度</p>
+</li>
+<li><p>​        HIPO图——层次结构</p>
+</li>
+<li><p>​        模块结构图——过程和层次</p>
+<p>模块结构图的特点：</p>
+<ul>
+<li>从过程与层次两个角度划分子系统与模块</li>
+<li>不仅表示了模块之间的层次，而且表明了调用关系、数据流、控制流和信息传递的关系</li>
+<li>是系统流程图与HIPO的综合与发展</li>
+<li>依据于数据流程图</li>
+<li>是目前结构化系统设计的主流工具</li>
+</ul>
+<h5 id="4-2-3模块结构图的画法"><a href="#4-2-3模块结构图的画法" class="headerlink" title="4.2.3模块结构图的画法"></a>4.2.3模块结构图的画法</h5><p>设计策略：依赖于数据流程图，把数据流程图变换成模块结构图；事务分析法；变换分析法</p>
+<p>事务分析法：高层的数据流程图中的处理逻辑都可以看成事务；对于三层或者三层以上的数据流程图，都可以用事务分析法；事务分析产生的结构图</p>
+<p>系统总体优化的准则：</p>
+<ul>
+<li>模块的聚合（内聚）<ul>
+<li>概念：模块内部的紧凑程度</li>
+<li>分类：<ul>
+<li>功能聚合：内部的所有动作都是为了完成一个功能、一次输入、转换与输出</li>
+<li>顺序聚合：前一个动作的输出是后一个动作的输入</li>
+<li>通信聚合：两个动作使用相同的输入、产生相同的输出</li>
+<li>过程聚合：动作无关系、都受同一个控制流的支配</li>
+<li>暂时聚合：处理的动作和时间有关（如：初始化）</li>
+<li>逻辑聚合：逻辑相似，但实质上是有区别的或者不同的</li>
+<li>偶然聚合：没有任何关系的模块放在一起</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>模块的耦合（联结）<ul>
+<li>数据耦合：单个数据项传递</li>
+<li>特征耦合：数据结构传递</li>
+<li>控制耦合：上级模块向下级模块传递的信息控制着下级模块内部的动作</li>
+<li>公共耦合：模块和一个公共数据域有关</li>
+<li>内容耦合：一个模块受另一个模块内部的数据的影响</li>
+</ul>
+</li>
+<li>模块的分解<ul>
+<li>分解到功能聚合型的模块为止</li>
+<li>模块大概可用30-50句语句完成</li>
+</ul>
+</li>
+<li>模块的扇入、扇出<ul>
+<li>扇入：一个模块的上级模块叫做扇入模块</li>
+<li>扇出：一个模块控制的下级模块叫扇出模块</li>
+<li>原则：扇入越大越好  扇出数目控制在7±2范围内</li>
+</ul>
+</li>
+<li>模块的控制范围与判断作用范围（影响范围）<ul>
+<li>前者指模块本身和它的下级模块<br>后者指模块和有判断调用的模块的组合</li>
+<li>准则：后者是前者的子集<br>模块的判断作用范围内的模块尽量在层次上靠拢</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-3详细设计"><a href="#4-3详细设计" class="headerlink" title="4.3详细设计"></a>4.3详细设计</h4><p>​    对信息系统中的数据、代码、人机交互等进行的设计。<br>包括：</p>
+<ul>
+<li>数据文件分类与设计</li>
+<li>代码设计</li>
+<li>输入、输出与人机交互设计</li>
+</ul>
+<h5 id="4-3-1数据文件分类和设计"><a href="#4-3-1数据文件分类和设计" class="headerlink" title="4.3.1数据文件分类和设计"></a>4.3.1数据文件分类和设计</h5><p>​    内容：</p>
+<p>​        数据与文件分类<br>​        存储方式、文件命名规则设计<br>​        规范化设计<br>​        完整性<br>​        一致性<br>​        有效性<br>​        安全性<br>​        存储过程</p>
+<p>​    <strong>数据与文件分类</strong></p>
+<p>​        按不同的角度进行分类</p>
+<ul>
+<li>​        按照媒体类型分类，可分为数字、文本、图形、3D、矢量图像、栅格图像、动画、音频、视频等</li>
+<li>​        按性质分类，可分为基础数据库和代码数据库</li>
+<li>​        按时间分类，可分为现场库和历史库</li>
+<li>​        按业务分类，如教务系统可分为学生用户和教师用户等</li>
+<li>​        ……</li>
+</ul>
+<p>​    <strong>存储方式、文件命名规则设计</strong></p>
+<p>​        存储方式：</p>
+<ul>
+<li>分布、集中、异构：分布数据库逻辑相同，物理分散；集中数据库逻辑和物理一致，异构数据库逻辑上有所差别，物理上不同。</li>
+<li>单机、网络</li>
+<li>文件、数据库、其他</li>
+</ul>
+<p>​    文件夹与文件命名规则</p>
+<p>​        由于分类的方式不同，数据的种类也不同，因此需要统一的文件命名规则，是不同分类体系的体现，便于不同模块的不同的人进行开发。包括日期(版本)、人员、业务、内容等等，命名规则要简洁、唯一、易读等等。</p>
+<p>​    <strong>规划化设计</strong></p>
+<p>​        规范化设计是将数据模式中不合理的东西（依赖、冗余、异常等）解决，使之变的规范化，便于数据库人员的操作，提高效率。一般要采用3NF以上的范式，根据具体情况选择，但并不是范式越高越好，可能造成冗余等现象。</p>
+<p>​    <strong>完整性设计</strong></p>
+<p>​        存储在数据库中的所有数据值均正确的状态</p>
+<p>​        实体完整性是指数据库中主关键字不能为空</p>
+<p>​        参照完整性是指数据库中表的取值必须有效，不能引用不存在的实体。</p>
+<p>​        用户自定义的完整性是指用户自己定义每个字段的限制条件。</p>
+<p>​    <strong>一致性、有效性、安全性</strong>    </p>
+<p>​        要保证数据的一致性、有效性、安全性</p>
+<p>​    <strong>存储过程设计</strong></p>
+<p>​        存储过程（Stored Procedure）是在大型数据库系统中，一组为了完成特定功能的SQL 语句集。<br>存储在数据库中，经过第一次编译后调用不需要再次编译，用户通过指定存储过程的名字并给出参数（如果该存储过程带有参数）来执行它。<br>存储过程是数据库中的一个重要对象。<br>​       存储过程设计要求设计存储过程的种类和数量。</p>
+<h5 id="4-3-2代码设计-离散数据"><a href="#4-3-2代码设计-离散数据" class="headerlink" title="4.3.2代码设计-离散数据"></a>4.3.2代码设计-离散数据</h5><p>​        一个或者一组有序的易于计算机和人识别与处理的符号。</p>
+<p>​        代码设计的步骤：</p>
+<ul>
+<li>信息分类<ul>
+<li>分类原则:<ul>
+<li>科学性</li>
+<li>系统性</li>
+<li>可扩充性</li>
+<li>兼容性</li>
+<li>综合实用性</li>
+</ul>
+</li>
+<li>分类方法<ul>
+<li>线分类法<ul>
+<li>也称层级分类法，将选定的分类对象按若干属性逐次地分成若干层级的类目，同类之间并列、上下之间从属<br>层次性好、方便<br>弹性差、效率低</li>
+</ul>
+</li>
+<li>面分类法<ul>
+<li>若干属性独立分类、没有上下级的从属关系<br>进行组配<br>组配太多</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>编码</li>
+</ul>
+<p>​        编码的原则：</p>
+<p>​        唯一性：一个编码对应一个信息或事物，即通常所说的一物一码        </p>
+<p>​        合理性：编码要合理，尽可能采用有逻辑的编码可以反映某些意义，便于记忆。</p>
+<p>​        可扩展性：编码要包含某一类的所有东西，种类增加后可以通过扩展进行编码</p>
+<p>​        简单性：编码要尽可能简单，减少冗余，便于记忆、阅读、填写等</p>
+<p>​        适用性：编码要适用，不能过长也不能过短，过长记忆、存储等方面都有难度，过短不能充分表示所有物品。</p>
+<p>​        规范性：编码要符合国家的、行业的等相应的标准和规范。</p>
+<h5 id="4-3-3-输入输出设计"><a href="#4-3-3-输入输出设计" class="headerlink" title="4.3.3 输入输出设计"></a>4.3.3 输入输出设计</h5><p>​        设计必要性：系统中有需要进行输入/输出的地方</p>
+<p>​        输出设计的内容：</p>
+<p>​            1、确定输出内容</p>
+<p>​            确定用户在使用信息方面的要求，包括使用目的、输出速度、频率、数量、安全性要求</p>
+<p>​            然后设计输出信息的内容、信息形式（表格、图形、文字）、数据结构、数据类型、位数及取值范围等等。</p>
+<p>​            2、选择输出设备与介质</p>
+<p>​            常用的输出设备有显示终端、打印机、磁盘机、绘图仪、多媒体设备、磁带机等</p>
+<p>​            选择输出介质：纸张、光盘、磁带IC卡、磁盘、多媒体介质等</p>
+<p>​            3、确定输出格式</p>
+<p>​            输出文字、报表、图形等，清晰直观，满足用户的管理需求和习惯，符合行业标准</p>
+<p>​            4、确定输出方式</p>
+<p>​            邮件、手机短信、脉冲等</p>
+<p>​        输出质量要求：正确Accuracy；易存取Accessibility；及时Timeliness；适当Relevance；可用Useability</p>
+<p>​        输入设计的原则：</p>
+<p>​                最小量原则：输入必要的数据，系统计算二次数据或导入数据</p>
+<p>​                简单性原则：输入次数少，人机交互易</p>
+<p>​                早检验原则：单字段检验</p>
+<p>​                少转换原则：用户最易用的前提下，输入的数据尽量在系统中少发生形式的转换。</p>
+<p>​        输入设计的内容：        </p>
+<p>​            1、确定输入数据内容</p>
+<p>​            确定输入数据项名称、数据内容、精度、数值范围</p>
+<p>​            2、确定数据的输入方式</p>
+<p>​            确定是终端输入还是脱机批量输入</p>
+<p>​            3、输入格式设计</p>
+<p>​            包括纸质和屏幕的记录格式，好的设计能减少数据冗余，降低错误率和操作员强度。</p>
+<p>​            4、正确性校验设计和输入设备设计</p>
+<h5 id="4-3-4-界面设计"><a href="#4-3-4-界面设计" class="headerlink" title="4.3.4 界面设计"></a>4.3.4 界面设计</h5><p>​        4.3.4.1以用户为中心开展界面设计</p>
+<p>​            </p>
+<p>​        4.3.4.2可用性的定义与衡量</p>
+<p>​            信息系统可用性是产品在特定使用环境下为特定用户用于特定用途时所具有的有效性、效率和用户主观满意度。</p>
+<p>​            可用性的度量：</p>
+<p>​                有效性：是否成功达成目标；复杂作业-分解成-次作业；计算成功的比例</p>
+<p>​                效率：偏离理想作业方式；错误率、犯错次数；工作时间；心智工作负荷（生理指标）</p>
+<p>​                满意：问卷（基于任务、基于测试）</p>
+<p>​        4.3.4.3视觉心理与界面设计</p>
+<p>​    <img src="image-20200421181239858.png" alt="image-20200421181239858" style="zoom: 30%;" /></p>
+<p>​        4.3.4.4人的认知心理与界面设计</p>
+<p>​                注意——记忆——决策</p>
+<p>​        4.3.4.5经典的界面可用性原则</p>
+<p>​                费茨定律：鼠标移动的距离越短越好</p>
+<p>​                希克定律：选择越少越好</p>
+<p>​                尼尔森：10大可用性原则</p>
+<p>​        4.3.4.6界面原型设计</p>
+<p>​                系统主要功能和交互方式的可视化展示，包括：</p>
+<p>​                        低保真原型——线框图</p>
+<p>​                        高保真原型</p>
+<p>​                <img src="image-20200421183429356.png" alt="image-20200421183429356"></p>
+<p><img src="image-20200604181008459.png" alt="image-20200604181008459"></p>
+<p><img src="image-20200604181113271.png" alt="image-20200604181113271"></p>
+<p><img src="image-20200604181203729.png" alt="image-20200604181203729"></p>
+<p><img src="image-20200604181335209.png" alt="image-20200604181335209"></p>
+<p><img src="image-20200604181353959.png" alt="image-20200604181353959"></p>
+<p><img src="image-20200604181541168.png" alt="image-20200604181541168"></p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/08/24/信息系统分析与设计（三）_系统分析/" data-toggle="tooltip" data-placement="top" title="信息系统分析与设计|信息系统分析">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/08/24/jdk安装遇到的问题/" data-toggle="tooltip" data-placement="top" title="jdk安装">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#信息系统设计" title="信息系统设计">信息系统设计</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%EF%BC%88%E5%9B%9B%EF%BC%89_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/";
+    var disqus_url = "https://wzc-blog.github.io/2020/08/24/%E4%BF%A1%E6%81%AF%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%EF%BC%88%E5%9B%9B%EF%BC%89_%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Demonbane_x">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wang-wei-1-15-8">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/demonbane.cn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/wzc-blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.instagram.com/in/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wzc&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="#">wzc</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wzc-blog&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wzc-blog.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

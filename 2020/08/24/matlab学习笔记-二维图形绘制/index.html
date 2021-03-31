@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          matlab学习笔记|二维图形绘制 - Wzc的博客 | Wzc&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/matlab学习笔记-二维图形绘制/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wzc&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('post-bg-js-module.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#MATLAB学习笔记" title="MATLAB学习笔记">MATLAB学习笔记</a>
+                        
+                    </div>
+                    <h1>matlab学习笔记|二维图形绘制</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by wzc on
+                        2020-08-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="二维图形绘制"><a href="#二维图形绘制" class="headerlink" title="二维图形绘制"></a>二维图形绘制</h3><h4 id="1、二维曲线的绘制"><a href="#1、二维曲线的绘制" class="headerlink" title="1、二维曲线的绘制"></a>1、二维曲线的绘制</h4><p>​    <strong>1.1 Figure命令</strong></p>
+<p>​        figure:创建一个图形窗口</p>
+<p>​        figure(n):创建一个编号为Figure(n)的图形窗口，其中n是一个正整数，表示图形窗口的句柄</p>
+<p>​        figure(‘PropertyName’,’PropertyValue’,…):对指定的属性PropertyName,用指定的属性值ProtertyValue(属性名和属性值成对出现)创建一个新的图形窗口；对于那些没有指定的属性，则用默认值。</p>
+<p>​        close命令：关闭图形窗口</p>
+<p>​        clf命令：将窗口内容清空</p>
+<p>​    <strong>1.2 plot命令</strong></p>
+<p>​        基本的绘图命令，也是最常用的绘图命令。当执行plot命令时，系统自动创建一个新的图形窗口，如果之前已经有窗口打开，那么系统会将图形画在最近打开的图形窗口上，原有图形也将被覆盖。</p>
+<p>​        plot(x):</p>
+<p>​        当x是实向量时，则绘制出以该向量元素的下标(1,2,3…)为横坐标，以该向量元素的值为纵坐标的一条连续曲线。</p>
+<p>​        当x是实矩阵时，按列绘制出每列元素值相对齐下标的曲线，曲线数等于x的列数。</p>
+<p>​        plot(x,y):</p>
+<p>​        当x,y是同维向量时，绘制以x为横坐标、以y为纵坐标的曲线。</p>
+<p>​        当x是向量时，y有一维与x等维的矩阵时，绘制出多根不同颜色的曲线，曲线数等于y矩阵的另一维数，x作为这些曲线的横坐标。</p>
+<p>​        当x、y是同维矩阵时，以x对应的列元素为横坐标，以y对应的列元素为纵坐标分别绘制曲线，曲线数等于矩阵的列数。</p>
+<p>​        plot(x1,y2,x2,y2,…)</p>
+<p>​        绘制多条曲线，x、y必须成对出现，等价于逐次执行plot(x,y)命令</p>
+<p>例：</p>
+<p>​    在图形窗口中显示函数y=sinx+cosx在已知的区间[1,2pi]100等分取值计算的结果。</p>
+<ul>
+<li>输入[1,2pi]区间的x向量</li>
+<li>输入函数公式</li>
+<li>利用绘图命令plot(x,y)绘图</li>
+</ul>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x=[<span class="number">1</span>:<span class="built_in">pi</span>/<span class="number">50</span>:<span class="number">2</span>*<span class="built_in">pi</span>];</span><br><span class="line">y=<span class="built_in">sin</span>(x)+<span class="built_in">cos</span>(x);</span><br><span class="line"><span class="built_in">plot</span>(x,y)</span><br></pre></td></tr></table></figure>
+
+<p>​    <strong>1.3多图形显示</strong></p>
+<p>​    1.3.1图形分割</p>
+<p>​        subplot(m,n,p)</p>
+<p>​        将当前窗口分割成mxn个视图区域，并指定第p个视图为当前视图。</p>
+<p>​    1.3.2图形叠加</p>
+<p>​        一般情况下，绘图命令每执行一次就刷新当前图形窗口，图形窗口将不显示旧的图形，但若有特殊需要，在旧的图形上叠加新的图形，可以使用图形保持命令hold，图形保持命令hold on/off控制原有的图形的保持与不保持。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">1</span>:<span class="number">2</span>:<span class="number">16</span>;			</span><br><span class="line">y=x./<span class="number">2</span>;				</span><br><span class="line"><span class="built_in">plot</span>(x,y);			<span class="comment">%显示图形1</span></span><br><span class="line"><span class="built_in">hold</span> on;			<span class="comment">%打开保持命令</span></span><br><span class="line">y2=<span class="built_in">cos</span>(<span class="built_in">pi</span>*x./<span class="number">10</span>);</span><br><span class="line"><span class="built_in">plot</span>(x,y2);			<span class="comment">%叠加图形1、图形2</span></span><br><span class="line">y3=x+<span class="number">2</span>;</span><br><span class="line"><span class="built_in">plot</span>(x,y3);			<span class="comment">%未输入保持关闭命令，继续叠加显示图形3</span></span><br><span class="line"><span class="built_in">hold</span> off;			<span class="comment">%关闭保持命令。单独显示图形</span></span><br><span class="line"><span class="built_in">plot</span>(x,y3);</span><br></pre></td></tr></table></figure>
+
+<p>实例：</p>
+<p>随机生成一个行向量a以及一个实方阵b,并作出a,b两幅图像</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a=<span class="built_in">rand</span>(<span class="number">1</span>,<span class="number">10</span>);</span><br><span class="line">b=<span class="built_in">rand</span>(<span class="number">5</span>,<span class="number">5</span>);</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>),<span class="built_in">plot</span>(a)</span><br><span class="line">subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>),<span class="built_in">plot</span>(b)</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.4函数图形的绘制</strong></p>
+<p>​    1.4.1一元函数绘制</p>
+<p>​        fplot命令是专门用于绘制图像的命令。plot命令也可以画一元函数图像，两者的区别是：</p>
+<p>plot命令是根据给定的数据点来作图，而在实际情况中，一般不清楚函数的具体情况，因此依据所选取的数据点绘制的图像可能会忽略真实函数的某些重要特性，给科研工作造成不可估计的损失。</p>
+<p>fplot命令用来指导数据点的选取，通过其内部适应算法，在函数变化比较平稳处，它所选取的数据点就会相对疏松一点，在函数变化比较明显处选取的数据点就会比较自动密集一些，因此使用fplot命令所做出的图像比用plot命令作出的图像光滑准确。</p>
+<p>​    1.4.2符号函数的绘制</p>
+<p>​    对于符号函数，matlab提供了专门的绘图命令——ezplot命令。利用这个命令可以很容易的将一个符号函数图形化。</p>
+<p>​    例：</p>
+<p>​    绘制隐函数<img src="C:\Users\wzc19\AppData\Roaming\Typora\typora-user-images\image-20200202165843824.png" alt="image-20200202165843824">的图像</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">syms x;</span><br><span class="line">f1=<span class="built_in">exp</span>(<span class="number">2</span>*x)*<span class="built_in">sin</span>(<span class="number">2</span>*x);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>),ezplot(<span class="built_in">exp</span>(<span class="number">2</span>*x),[-<span class="built_in">pi</span>,<span class="built_in">pi</span>])</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>),ezplot(<span class="built_in">sin</span>(<span class="number">2</span>*x))</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>),ezplot(<span class="built_in">exp</span>(<span class="number">2</span>*x)+<span class="built_in">sin</span>(<span class="number">2</span>*x),[-<span class="built_in">pi</span>,<span class="built_in">pi</span>,<span class="number">0</span>,<span class="number">2</span>*<span class="built_in">pi</span>])</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>),ezplot(f1,[<span class="number">-4</span>*<span class="built_in">pi</span>,<span class="number">4</span>*<span class="built_in">pi</span>])</span><br></pre></td></tr></table></figure>
+
+<p>​    1.4.3设置曲线的样式</p>
+<p>​    曲线一律采用“实线”线型，不同曲线蓝、绿、红、青、品红、黄、黑顺序着色。</p>
+<h4 id="2、图形注释"><a href="#2、图形注释" class="headerlink" title="2、图形注释"></a>2、图形注释</h4><p>​    lMATLAB中提供了一些常用的图形标注函数，利用这些函数可以为图形添加标题，为图形的坐标轴加标注，为图形加图例，也可以把说明、注释等文本放到图形的任何位置。</p>
+<p>（1）注释图形标题及轴名称</p>
+<ul>
+<li><p>title命令使用</p>
+<table>
+<thead>
+<tr>
+<th>调用格式</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>title(‘string’)</td>
+<td>在当前坐标轴上方正中央放置字符串string作为图形标题</td>
+</tr>
+<tr>
+<td>title(fname)</td>
+<td>先执行能返回字符串的函数fname，然后在当前轴上方正中央放置返回的字符串作为标题</td>
+</tr>
+<tr>
+<td>title(‘text’,’PropertyName’,PropertyValue,…)</td>
+<td>对由命令title生成的图形对象的属性进行设置，输入参数“text”为要添加的标注文本</td>
+</tr>
+<tr>
+<td>h =  title(…)</td>
+<td>返回作为标题的text对象句柄</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>xlabel命令使用</p>
+<table>
+<thead>
+<tr>
+<th>调用格式</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xlabel(‘string’)</td>
+<td>在当前轴对象中的x轴上标注说明语句string</td>
+</tr>
+<tr>
+<td>xlabel(fname)</td>
+<td>先执行能返回字符串的函数fname，然后在当前x轴旁边显示出来</td>
+</tr>
+<tr>
+<td>xlabel(‘text’,’PropertyName’,PropertyValue,…)</td>
+<td>对由命令title生成的图形对象的属性进行设置，输入参数“text”为要添加的标注文本</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<p>（2）图形标注</p>
+<ul>
+<li><p>text命令</p>
+<table>
+<thead>
+<tr>
+<th>调用格式</th>
+<th>说 明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>text(x,y,’string’)</td>
+<td>在图形中指定的位置(x,y)上显示字符串string</td>
+</tr>
+<tr>
+<td>text(x,y,z,’string’)</td>
+<td>在三维图形空间中的指定位置(x,y,z)上显示字符串string</td>
+</tr>
+<tr>
+<td>text(x,y,z,’string’,’PropertyName’,PropertyValue,…)</td>
+<td>在三维图形空间中的指定位置(x,y,z)上显示字符串string,且对指定的属性进行设置。</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>gtext命令    </p>
+<p>gtext命令可以让鼠标在图形的任意位置进行标注。当光标进入图形窗口时，会变成一个大十字架形，等待用户的操作。它的使用格式为：</p>
+<p>gtext( ‘string’，‘property’，propertyvalue，…)调用这个函数后，图形窗口中的鼠标指针会成为十字光标，通过移动鼠标来进行定位，即光标移到预定位置后按下鼠标左键或键盘上的任意键都会在光标位置显示指定文本“string”。由于要用鼠标操作，该函数只能在MATLAB命令窗口中进行。</p>
+</li>
+</ul>
+<p>（3）图例标注</p>
+<p>​    当在一幅图中出现多种曲线时，用户可以根据自己的需要，利用legend命令对不同的图例进行说明。</p>
+<p><strong>实例：</strong></p>
+<p>1/绘制“余弦波”图形。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;linspace(0,10*pi,100);</span><br><span class="line">plot(x,cos(x));</span><br><span class="line">title(&#39;余弦波&#39;);</span><br><span class="line">xlabel(&#39;x坐标&#39;);</span><br><span class="line">ylabel(&#39;y坐标&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>2/绘制倒数函数</p>
+<p>绘制倒数函数y=1/x在[0,2]上，标出1/4,1/2,5/4,7/4在图像上的位置，并在曲线上标出函数名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;0:0.1:2;</span><br><span class="line">plot(x,1.&#x2F;x);</span><br><span class="line">title(&#39;倒数函数&#39;);</span><br><span class="line">xlabel(&#39;x&#39;),ylabel(&#39;1.&#x2F;x&#39;);</span><br><span class="line">text(0.25,1.&#x2F;0.25,&#39;&lt;--1.&#x2F;0.25&#39;);</span><br><span class="line">text(0.5,1.&#x2F;0.5,&#39;1.&#x2F;0.5\rightarrow&#39;,&#39;HorizontalAlignment&#39;,&#39;right&#39;);</span><br><span class="line">gtext(&#39;y&#x3D;1.&#x2F;x&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>3/在同一个图形窗口内绘制三角函数</p>
+<p>y1=sinx,y2=cosx,y3=tanx,并作出相应的图例标注。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;linspace(0,2*pi,100);</span><br><span class="line">y1&#x3D;sin(x);</span><br><span class="line">y2&#x3D;cos(x);</span><br><span class="line">y3&#x3D;tan(x);</span><br><span class="line">plot(x,y1,&#39;md&#39;,x,y2,&#39;b^&#39;,x,y3,&#39;:+ &#39;);</span><br><span class="line">title(&#39;三角函数&#39;);</span><br><span class="line">xlabel(&#39;x&#39;),ylabel(&#39;y&#39;);</span><br><span class="line">axis([0,7,-2,3])</span><br><span class="line">legend(&#39;sin(x)&#39;,&#39;cos(x)&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/08/24/v10-0-0破解安装/" data-toggle="tooltip" data-placement="top" title="xmind2020 v10.0.0破解安装">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/08/24/信息系统分析与设计（五）_系统实施/" data-toggle="tooltip" data-placement="top" title="信息系统分析与设计|信息系统实施">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#MATLAB学习笔记" title="MATLAB学习笔记">MATLAB学习笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/matlab%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C%E7%BB%B4%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/";
+    var disqus_url = "https://wzc-blog.github.io/2020/08/24/matlab%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C%E7%BB%B4%E5%9B%BE%E5%BD%A2%E7%BB%98%E5%88%B6/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Demonbane_x">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wang-wei-1-15-8">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/demonbane.cn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/wzc-blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.instagram.com/in/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wzc&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="#">wzc</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wzc-blog&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wzc-blog.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

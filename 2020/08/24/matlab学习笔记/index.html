@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          matlab学习笔记 - Wzc的博客 | Wzc&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wzc-blog.github.io/2020/08/24/matlab学习笔记/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wzc&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('post-bg-js-module.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#MATLAB学习笔记" title="MATLAB学习笔记">MATLAB学习笔记</a>
+                        
+                    </div>
+                    <h1>matlab学习笔记</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by wzc on
+                        2020-08-24
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h3 id="matlab学习笔记"><a href="#matlab学习笔记" class="headerlink" title="matlab学习笔记"></a>matlab学习笔记</h3><p>字符串处理：p24</p>
+<p>​    strcat(x,y)：连接字符串</p>
+<p>​    strrep(x,’who’,y):用y替换x中的who</p>
+<p>​    lower():修改字符串大小写</p>
+<p>​    strjust(A,’left’):将A字符位置调至左边</p>
+<p>matlab中</p>
+<p>单元数组：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">grade_assess</span><span class="params">(Name,Score)</span></span></span><br><span class="line"><span class="comment">%UNTITLED4 此处显示有关此函数的摘要</span></span><br><span class="line"><span class="comment">%   Name中的元素为学生姓名</span></span><br><span class="line"><span class="comment">%   Score中元素为学分制</span></span><br><span class="line"><span class="comment">%   统计学生人数</span></span><br><span class="line">n=<span class="built_in">length</span>(Name);</span><br><span class="line"><span class="comment">% 将分数区间划分开，这里创建了三个单元数组，A等级数组数有16个，B等级元素数有15个，C等级有10个</span></span><br><span class="line"><span class="comment">% 每个都是一个单独的个体</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">0</span>:<span class="number">15</span></span><br><span class="line">    A_level&#123;<span class="built_in">i</span>+<span class="number">1</span>&#125;=<span class="number">85</span>+<span class="built_in">i</span>;</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">i</span>&lt;=<span class="number">14</span></span><br><span class="line">        B_level&#123;<span class="built_in">i</span>+<span class="number">1</span>&#125;=<span class="number">70</span>+<span class="built_in">i</span>;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">i</span>&lt;=<span class="number">9</span>)</span><br><span class="line">            C_level&#123;<span class="built_in">i</span>+<span class="number">1</span>&#125;=<span class="number">60</span>+<span class="built_in">i</span>;</span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">%   创建存储成绩等级的数组</span></span><br><span class="line">Level=cell(<span class="number">1</span>,n);</span><br><span class="line"><span class="comment">%   创建结构体S</span></span><br><span class="line"><span class="comment">%	结构体必须有对应的行数和列数，这里Name和Score和Level都为1xn的数组，使用机构体后相当于</span></span><br><span class="line"><span class="comment">%	构成了nx1的数组，通过索引即可访问一条记录</span></span><br><span class="line">S=struct(<span class="string">&#x27;Name&#x27;</span>,Name,<span class="string">&#x27;Score&#x27;</span>,Score,<span class="string">&#x27;Level&#x27;</span>,Level);</span><br><span class="line"><span class="comment">%	使用switch比较时，个人理解为switch后面的值与case中数组每个都比较一下，存在则为真</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    <span class="keyword">switch</span> S(<span class="built_in">i</span>).Score</span><br><span class="line">        <span class="keyword">case</span> A_level</span><br><span class="line">            S(<span class="built_in">i</span>).Level=<span class="string">&#x27;优&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span> B_level</span><br><span class="line">            S(<span class="built_in">i</span>).Level=<span class="string">&#x27;良&#x27;</span>;</span><br><span class="line">        <span class="keyword">case</span> C_level</span><br><span class="line">            S(<span class="built_in">i</span>).Level=<span class="string">&#x27;及格&#x27;</span>;</span><br><span class="line">        <span class="keyword">otherwise</span></span><br><span class="line">            S(<span class="built_in">i</span>).Level=<span class="string">&#x27;不及格&#x27;</span>;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="built_in">disp</span>(A_level);</span><br><span class="line"><span class="built_in">disp</span>(S);</span><br><span class="line"><span class="comment">%显示所有学生的成绩等级评定</span></span><br><span class="line"><span class="built_in">disp</span>([<span class="string">&#x27;学生姓名&#x27;</span>,blanks(<span class="number">4</span>),<span class="string">&#x27;得分&#x27;</span>,blanks(<span class="number">4</span>),<span class="string">&#x27;等级&#x27;</span>]);</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:n</span><br><span class="line">    <span class="built_in">disp</span>([S(<span class="built_in">i</span>).Name,blanks(<span class="number">4</span>),num2str(S(<span class="built_in">i</span>).Score),blankscheng(<span class="number">6</span>),S(<span class="built_in">i</span>).Level]);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">%disp只能输出字符串</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">%</span></span><br></pre></td></tr></table></figure>
+
+<p>程序的注解：</p>
+<p>1、disp命令</p>
+<p>​    该命令用来展示变量的内容，可以是数值、字符串或表达式，可以输出几乎所有类型的变量。它的使用格式如下：</p>
+<p>disp(X):在屏幕上显示任何输入的变量</p>
+<p>2、input命令</p>
+<p>​    该命令用来提示用户从键盘输入数值、字符串或表达式，并将相应的值赋给指定的变量。</p>
+<p>3、keyboard命令</p>
+<p>​    该命令是一个键盘调用命令，即当在一个M文件中运行该命令后，该文件将停止执行并将“控制权”交给键盘，产生一个以K开头的提示符（K&gt;&gt;）,用户可以通过键盘输入各种METLAB的合法命令。只有当输入return命令时，程序才将“控制权”交给原文件。</p>
+<p>4、menu命令</p>
+<p>​    该命令用来产生一个菜单供用户选择，它的使用格式为：</p>
+<p>k=menu(‘mtitle’,‘opt1’,‘opt2’,…,‘optn’)</p>
+<h3 id="符号运算"><a href="#符号运算" class="headerlink" title="符号运算"></a>符号运算</h3><p><strong>符号对象的建立：</strong>sym <strong>和</strong> syms</p>
+<p><strong>sym</strong> 函数用来建立单个符号变量，一般调用格式为：符号变量 <strong>=</strong> <strong>sym</strong>(A)参数 <strong>A</strong> 可以是一个数或数值矩阵，也可以是字符串</p>
+<p><strong>例如：a=sym(‘a’)  a</strong> 是符号变量</p>
+<p><strong>b=sym(1/3）       b</strong> 是符号常量</p>
+<p><strong>C=sym(‘[1 ab; c d]’)       C</strong> 是符号矩阵</p>
+<p><strong>syms</strong> 命令用来建立多个符号变量，一般调用格式为：</p>
+<p><strong>syms</strong> <strong>符号变量1符号变量2 符号变量n</strong></p>
+<p><strong>syms</strong> <strong>a b c； 等价</strong> </p>
+<p><strong>&gt;&gt;</strong> <strong>a=sym(‘a’);</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>b=sym(‘b’);</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>c=sym(‘c’);</strong></p>
+<p>建立符号表达式通常有以下2种方法：</p>
+<p><strong>(1)</strong> 用 <strong>sym</strong> 函数直接建立符号表达式。<br><strong>(2)</strong> 使用已经定义的符号变量组成符号表达式。</p>
+<p><strong>例如：</strong> <strong>y=sym(‘sin(x)+cos(x)’)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>x=sym(‘x’);</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>y=sin(x)+cos(x)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>y=sin(x)+cos(x)</strong></p>
+<p>​                                       符号表达式的替换</p>
+<p> <strong>用给定的数据替换符号表达式中的指定的符号变量</strong></p>
+<p> <strong>subs(f,x,a)</strong></p>
+<p><strong>用</strong> <strong>a替换字符函数f 中的字符变量 x<br> <strong>a</strong>是可以是</strong> <strong>数数值变量表达式</strong> <strong>或</strong> <strong>字符变量表达式</strong>  </p>
+<p>若x是一个由多个字符变量组成的数组或矩阵，</p>
+<p>则 <strong>a 应该具有与 x</strong>相同的形状的数组或矩阵。</p>
+<p><strong>&gt;&gt;</strong> <strong>f= sym (‘ 2*u ‘);</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>subs(f,’ u ‘, 2 )</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f2=subs(f,’ u ‘,’ u+2 ‘)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>a=3;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>subs(f2,’ u ‘, a+2 )</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>subs(f2,’ u ‘,’ a+2 ‘)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x y</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f3=subs(f,’ u ‘, x+y )</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>subs(f3, [ x,y ] , [1,2] )</strong></p>
+<p>​                                            <strong>符号矩阵</strong></p>
+<p> 使用 <strong>sym</strong> 函数直接生成</p>
+<p><strong>&gt;&gt;</strong> <strong>A= sym ( ‘ [1+x, sin(x); 5, exp(x)] ‘ )</strong></p>
+<p> 将数值矩阵转化成符号矩阵</p>
+<p><strong>&gt;&gt;</strong> <strong>B= [2/3, sqrt(2); 5.2, log(3)];</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>C= sym (B)</strong></p>
+<p>符号矩阵中元素的引用和修改</p>
+<p><strong>&gt;&gt;</strong> <strong>A= sym ( ‘ [1+x, sin(x); 5, exp(x)] ‘ );</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>A(1,2)</strong> <strong>%</strong> <strong>引用</strong></p>
+<p>​                                        因式分解</p>
+<p><strong>factor（）</strong> 也可用于正整数的分解</p>
+<p><strong>&gt;&gt;</strong> <strong>factor ( sym (‘12345678901234567890’))</strong>   l <strong>大整数的分解要转化成符号常量</strong></p>
+<p>​                                        函数展开</p>
+<p><strong>expand (f)</strong></p>
+<p>l多项式展开</p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong> <strong>f= (x+1)^6;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>expand (f)</strong></p>
+<p> 三角函数展开</p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x y;</strong> <strong>f= sin( x+y );</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>expand (f)</strong></p>
+<p>​                                         合并同类项</p>
+<p>**collect ( f, <em>v\ <em>):</em></em> <strong>按指定变量</strong> *<strong>v*</strong> <strong>进行合并</strong></p>
+<p><strong>collect (f):</strong> <strong>按 默认变量 进行合并</strong></p>
+<p><strong>syms</strong> <strong>x y;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f=</strong> <strong>x^2*y + y*x - x^2 + 2*x ;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>collect (f)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>collect ( f,y )</strong></p>
+<p>​                                         函数简化</p>
+<p><strong>y=simple (f):</strong>  <strong>对</strong> <strong>f</strong> <strong>尝试多种不同的算法进行简化，返回其中最简短的形式</strong></p>
+<p><strong>[ How,y ]=simple (f):</strong>  <strong>y</strong> <strong>为</strong> <strong>f</strong> <strong>的最简短形式， How</strong> <strong>中记录的为简化过程中使用的方法。</strong></p>
+<table>
+<thead>
+<tr>
+<th>f</th>
+<th>R</th>
+<th>HOW</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2*cos(x)^2-sin(x)^2</td>
+<td>3*cos(x)^2-1</td>
+<td>simplify</td>
+</tr>
+<tr>
+<td>(x+1)<em>x</em>(x-1)</td>
+<td>x^3-x</td>
+<td>combine(trig)</td>
+</tr>
+<tr>
+<td>x^3+3<em>x^2+3</em>x+1</td>
+<td>(x+1)^3</td>
+<td>factor</td>
+</tr>
+<tr>
+<td>cos(3*acos(x))</td>
+<td>4<em>x^3-3</em>x</td>
+<td>expand</td>
+</tr>
+</tbody></table>
+<p><strong>y=simplify (f):</strong>  <strong>对</strong> *<strong>f*</strong> <strong>进行简化</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong> <strong>f= sin(x)^2 + cos(x)^2 ;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>simplify (f)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>c alpha beta;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f= exp(c*log(sqrt( alpha+beta )));</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>simplify (f)</strong></p>
+<p>例：简化 <img src="https://img-blog.csdn.net/20180822212137804?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f= (1/x^3+6/x^2+12/x+8)^(1/3);</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>y1=simplify (f)</strong></p>
+<p><strong>g1=simple (f)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>g2=simple (g1)</strong></p>
+<p>l <strong>多次使用</strong> <strong>simple</strong> <strong>可以达到最简表达。</strong></p>
+<p>​                                       分式通分</p>
+<p><strong>[N,D]= numden (f):</strong>  </p>
+<p>​       <strong>N</strong> <strong>为通分后的分子， D</strong> <strong>为通分后的分母</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x y;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f= x/ y+y /x;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>[N,D]= numden (f)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>[ n,d ]= numden ( sym (112/1024))</strong></p>
+<p>​                                        horner 多项式</p>
+<p> <strong>horner</strong> 多项式：嵌套形式的多项式</p>
+<p>列：<img src="https://img-blog.csdn.net/20180822212614723?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f= x^4+2*x^3+4*x^2+x+1;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>g= horner (f)</strong></p>
+<p>​                                      计算导数</p>
+<p><strong>g=diff( f,v ) ： 求符号表达式</strong> <strong>f</strong> <strong>关于</strong> <strong>v</strong> <strong>的导数</strong></p>
+<p><strong>g=diff(f) ： 求符号表达式</strong> <strong>f</strong> <strong>关于 默认变量 的导数</strong></p>
+<p><strong>g=diff( f,v,n ) ： 求</strong> <strong>f</strong> <strong>关于</strong> <strong>v</strong> <strong>的</strong> <strong>n</strong> <strong>阶导数</strong></p>
+<p><strong>g=diff(f,n)：求f关于默认变量的n阶导数</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>f= sin(x)+3*x^2 ;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>g=diff ( f,x )</strong></p>
+<p>​                                      计算积分</p>
+<p><strong>int( f,v,a,b ) :</strong> <strong>计算定积分</strong> <img src="https://img-blog.csdn.net/20180822212739684?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>int( f,a,b ) :</strong> <strong>计算关于 默认变量 的定积分</strong></p>
+<p><strong>int( f,v ) :</strong> <strong>计算不定积分</strong><img src="https://img-blog.csdn.net/20180822212753757?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>int( f ) :</strong> <strong>计算关于 默认变量 的不定积分</strong></p>
+<p>例：计算  <img src="https://img-blog.csdn.net/20180822212829100?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img">和<img src="https://img-blog.csdn.net/20180822212841989?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>x;</strong> <strong>f= (x^2+1)/(x^2-2*x+2)^2;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>I=int ( f,x )</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>K=int (exp(-x^2),x,0,inf)</strong></p>
+<p>​                                      符号求和</p>
+<p><strong>symsum ( f,v,a,b ) :</strong> <strong>求和</strong> <img src="https://img-blog.csdn.net/20180822212935448?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>symsum ( f,a,b ) :</strong> <strong>关于 默认变量 求和</strong><br>例：计算级数 <img src="https://img-blog.csdn.net/2018082221301023?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img">及其前100项的部分和</p>
+<p><strong>&gt;&gt;</strong> <strong>syms</strong> <strong>n;</strong> <strong>f= 1/n^2;</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>S= symsum (f,n,1,inf)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>S100= symsum (f,n,1,100)</strong></p>
+<p>​                                      <strong>微分方程求解</strong></p>
+<p><strong>dsolve</strong></p>
+<p><strong>y= dsolve (‘ eq1 ‘ , ‘ eq2 ‘ , … , ‘ cond1 ‘ , ‘ cond2 ‘ , … , ‘ v ‘)</strong> </p>
+<p><strong>其中</strong> <strong>y</strong> <strong>为输出的解，</strong> <strong>eq1 、 eq2 、 . . .</strong> <strong>为微分方程，</strong><br><strong>cond1 、 cond2 、 … 为初值条件，</strong> <strong>v</strong> <strong>为自变量</strong></p>
+<p><strong>例 1： 求微分方程</strong><img src="https://img-blog.csdn.net/20180822213153686?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><strong>的通解，并验证。</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>y= dsolve ( ‘ Dy+2*x*y=x*exp(-x^2) ‘,’ x ‘)</strong></p>
+<p><strong>&gt;&gt;</strong> <strong>y=</strong> <strong>C2*exp(-x^2) + (x^2*exp(-x^2))/2</strong></p>
+<p><strong>例2：求微分方程</strong><img src="https://img-blog.csdn.net/201808222133036?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><strong>满足初值条件</strong><br><img src="https://img-blog.csdn.net/20180822213328279?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"><strong>的特解，并画出解函数的图形</strong></p>
+<p><strong>&gt;&gt;</strong> *<em>y= dsolve (‘ x\ <em>Dy+y-exp (x)=0 ‘, …<br>      ‘ y(1)=2*exp(1) ‘, ‘ x ‘)</em></em></p>
+<p><strong>&gt;&gt;</strong> <strong>ezplot (y);</strong></p>
+<p><strong>例3： 求微分方程组</strong><img src="https://img-blog.csdn.net/20180822213452611?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"> <strong>在初值条件</strong> <img src="https://img-blog.csdn.net/20180822213509522?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjY2NzU2/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
+<p><strong>下的特解，并画出解函数的图形。</strong></p>
+<p>**[ x,y ]= dsolve (‘ Dx+5\ <em>x+y =exp(t) ‘,’ Dy-x-3*y=0 ‘, …</em>* </p>
+<p>​       <strong>‘ x(0)=1’, ‘y(0)=0 ‘, ‘ t ‘)</strong></p>
+<p><strong>ezplot ( x,y ,[0,1.3]);</strong></p>
+<ul>
+<li><pre><code>    &lt;li class=&quot;tool-item tool-active is-like &quot;&gt;&lt;a href=&quot;javascript:;&quot;&gt;&lt;svg class=&quot;icon&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;use xlink:href=&quot;#csdnc-thumbsup&quot;&gt;&lt;/use&gt;
+    &lt;/svg&gt;&lt;span class=&quot;name&quot;&gt;点赞&lt;/span&gt;
+    &lt;span class=&quot;count&quot;&gt;9&lt;/span&gt;
+    &lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;tool-item tool-active is-collection &quot;&gt;&lt;a href=&quot;javascript:;&quot; data-report-click=&quot;&#123;&amp;quot;mod&amp;quot;:&amp;quot;popu_824&amp;quot;&#125;&quot;&gt;&lt;svg class=&quot;icon&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;use xlink:href=&quot;#icon-csdnc-Collection-G&quot;&gt;&lt;/use&gt;
+    &lt;/svg&gt;&lt;span class=&quot;name&quot;&gt;收藏&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;tool-item tool-active is-share&quot;&gt;&lt;a href=&quot;javascript:;&quot;&gt;&lt;svg class=&quot;icon&quot; aria-hidden=&quot;true&quot;&gt;
+        &lt;use xlink:href=&quot;#icon-csdnc-fenxiang&quot;&gt;&lt;/use&gt;
+    &lt;/svg&gt;分享&lt;/a&gt;&lt;/li&gt;
+    &lt;!--打赏开始--&gt;
+                            &lt;!--打赏结束--&gt;
+                            &lt;li class=&quot;tool-item tool-more&quot;&gt;
+        &lt;a&gt;
+        &lt;svg t=&quot;1575545411852&quot; class=&quot;icon&quot; viewBox=&quot;0 0 1024 1024&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot; p-id=&quot;5717&quot; xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; width=&quot;200&quot; height=&quot;200&quot;&gt;&lt;defs&gt;&lt;style type=&quot;text/css&quot;&gt;&lt;/style&gt;&lt;/defs&gt;&lt;path d=&quot;M179.176 499.222m-113.245 0a113.245 113.245 0 1 0 226.49 0 113.245 113.245 0 1 0-226.49 0Z&quot; p-id=&quot;5718&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M509.684 499.222m-113.245 0a113.245 113.245 0 1 0 226.49 0 113.245 113.245 0 1 0-226.49 0Z&quot; p-id=&quot;5719&quot;&gt;&lt;/path&gt;&lt;path d=&quot;M846.175 499.222m-113.245 0a113.245 113.245 0 1 0 226.49 0 113.245 113.245 0 1 0-226.49 0Z&quot; p-id=&quot;5720&quot;&gt;&lt;/path&gt;&lt;/svg&gt;
+        &lt;/a&gt;
+        &lt;ul class=&quot;more-box&quot;&gt;
+            &lt;li class=&quot;item&quot;&gt;&lt;a class=&quot;article-report&quot;&gt;文章举报&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+                        &lt;/ul&gt;
+&lt;/div&gt;
+            &lt;/div&gt;
+&lt;div class=&quot;person-messagebox&quot;&gt;
+    &lt;div class=&quot;left-message&quot;&gt;&lt;a href=&quot;https://blog.csdn.net/qq_36666756&quot;&gt;
+        &lt;img src=&quot;https://profile.csdnimg.cn/4/7/A/3_qq_36666756&quot; class=&quot;avatar_pic&quot; username=&quot;qq_36666756&quot;&gt;
+                                &lt;img src=&quot;https://g.csdnimg.cn/static/user-reg-year/2x/3.png&quot; class=&quot;user-years&quot;&gt;
+                        &lt;/a&gt;&lt;/div&gt;
+    &lt;div class=&quot;middle-message&quot;&gt;
+                            &lt;div class=&quot;title&quot;&gt;&lt;span class=&quot;tit&quot;&gt;&lt;a href=&quot;https://blog.csdn.net/qq_36666756&quot; data-report-click=&quot;&#123;&amp;quot;mod&amp;quot;:&amp;quot;popu_379&amp;quot;&#125;&quot; target=&quot;_blank&quot;&gt;ItsL&lt;/a&gt;&lt;/span&gt;
+                                &lt;/div&gt;
+        &lt;div class=&quot;text&quot;&gt;&lt;span&gt;发布了33 篇原创文章&lt;/span&gt; · &lt;span&gt;获赞 53&lt;/span&gt; · &lt;span&gt;访问量 4万+&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+                    &lt;div class=&quot;right-message&quot;&gt;
+                                &lt;a href=&quot;https://im.csdn.net/im/main.html?userName=qq_36666756&quot; target=&quot;_blank&quot; class=&quot;btn btn-sm btn-red-hollow bt-button personal-letter&quot;&gt;私信
+            &lt;/a&gt;
+                                                &lt;a class=&quot;btn btn-sm  bt-button personal-watch&quot; data-report-click=&quot;&#123;&amp;quot;mod&amp;quot;:&amp;quot;popu_379&amp;quot;&#125;&quot;&gt;关注&lt;/a&gt;
+                        &lt;/div&gt;
+                &lt;/div&gt;
+        &lt;/div&gt;
+&lt;/article&gt;
+</code></pre>
+</li>
+</ul>
+<p><strong>一、线性方程和非线性方程在MATLAB中的各种求解方法</strong></p>
+<p>1.求多项式方程的根</p>
+<p>​    roots(p)</p>
+<p>​    solve(p)</p>
+<p>例：求方程<img src="image-20200130215910004.png" alt="image-20200130215910004" style="zoom: 67%;" />的所有根</p>
+<p>​    p=[1 -4 9 -10]</p>
+<p>​    r=roots(p)</p>
+<p>或 s1=str2sym(‘x^3-4*x^2+9*x-10’)</p>
+<p>​    solve(s1)</p>
+<p>2.求超越方程的根</p>
+<p><strong>二、MATLAB中求和及求极值的方法</strong></p>
+<p>1.求和</p>
+<p>（1）向量或矩阵求和</p>
+<p>（2）级数求和</p>
+<p>2.求函数的极值点</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/08/24/ArcGis安装/" data-toggle="tooltip" data-placement="top" title="ArcGis安装">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2020/08/24/v10-0-0破解安装/" data-toggle="tooltip" data-placement="top" title="xmind2020 v10.0.0破解安装">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#MATLAB学习笔记" title="MATLAB学习笔记">MATLAB学习笔记</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "https://wzc-blog.github.io/2020/08/24/matlab%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/";
+    var disqus_url = "https://wzc-blog.github.io/2020/08/24/matlab%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Demonbane_x">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wang-wei-1-15-8">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/demonbane.cn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/wzc-blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.instagram.com/in/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wzc&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="#">wzc</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wzc-blog&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wzc-blog.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

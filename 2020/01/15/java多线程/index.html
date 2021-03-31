@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>
+        
+          java学习笔记|多线程 - Wzc的博客 | Wzc&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="https://wzc-blog.github.io/2020/01/15/java多线程/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS -->
+    
+<link rel="stylesheet" href="/css/hux-blog.min.css">
+
+
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Wzc&#39;s Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archives/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    
+<!-- Image to hack wechat -->
+<!-- <img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}" width="0" height="0"> -->
+
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('post-bg-js-module.jpg')
+    }
+</style>
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                    </div>
+                    <h1>java学习笔记|多线程</h1>
+                    <h2 class="subheading"></h2>
+                    <span class="meta">
+                        Posted by wzc on
+                        2020-01-15
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h2 id="java的多线程"><a href="#java的多线程" class="headerlink" title="java的多线程"></a>java的多线程</h2><h3 id="线程的创建和启动："><a href="#线程的创建和启动：" class="headerlink" title="线程的创建和启动："></a>线程的创建和启动：</h3><p><img src="image-20191211174436584.png" alt="image-20191211174436584"></p>
+<ul>
+<li><p>继承Thread类；</p>
+</li>
+<li><p>实现Runnable接口的类进行接口回调；</p>
+<p><img src="image-20191211174640264.png" alt="image-20191211174640264"></p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现Runnable接口的类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RunClass</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">20</span>; i++)</span><br><span class="line">              System.out.print(<span class="string">&quot;次&quot;</span> + i + <span class="string">&quot;, &quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestImplementsRunnable</span></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">          Thread sub = <span class="keyword">new</span> Thread(<span class="keyword">new</span> RunClass());</span><br><span class="line">         sub.start();</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">20</span>; i++)</span><br><span class="line">             System.out.print(<span class="string">&quot;主&quot;</span> + i + <span class="string">&quot;, &quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//继承Thread类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">20</span>; i++)</span><br><span class="line">              System.out.print(<span class="string">&quot;次&quot;</span> + i + <span class="string">&quot;, &quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestExtendsThread</span></span>&#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">         SubThread sub = <span class="keyword">new</span> SubThread();</span><br><span class="line">         sub.start();</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=<span class="number">20</span>; i++)</span><br><span class="line">             System.out.print(<span class="string">&quot;主&quot;</span> + i + <span class="string">&quot;, &quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="线程的生命周期："><a href="#线程的生命周期：" class="headerlink" title="线程的生命周期："></a>线程的生命周期：</h3><ul>
+<li><p>产生</p>
+</li>
+<li><p>存在（运行/中断）</p>
+<p>​    调用start方法运行</p>
+<p>​    中断类型：线程运行期间执行了sleep方法，必须使用interrupt才能被吵醒；线程运行期间执行了wait()方法，则这个线程中断，可以使用notify()或者notifyAll()结束等待</p>
+</li>
+<li><p>消亡</p>
+</li>
+</ul>
+<h3 id="线程的常用方法："><a href="#线程的常用方法：" class="headerlink" title="线程的常用方法："></a>线程的常用方法：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">(<span class="keyword">int</span> millis)</span> <span class="keyword">throws</span> InterruptedException</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">isAlive</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">interrupt</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Thread <span class="title">currentThread</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Work</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	Thread zhangWorker,wangWorker,boss;</span><br><span class="line">	Work()</span><br><span class="line">	&#123;</span><br><span class="line">		boss=<span class="keyword">new</span> Thread(<span class="keyword">this</span>);</span><br><span class="line">		boss.setName(<span class="string">&quot;老板&quot;</span>);</span><br><span class="line"></span><br><span class="line">		zhangWorker=<span class="keyword">new</span> Thread(<span class="keyword">this</span>);</span><br><span class="line">		zhangWorker.setName(<span class="string">&quot;张工&quot;</span>);</span><br><span class="line"></span><br><span class="line">		wangWorker=<span class="keyword">new</span> Thread(<span class="keyword">this</span>);</span><br><span class="line">		wangWorker.setName(<span class="string">&quot;王工&quot;</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> j=<span class="number">0</span>;</span><br><span class="line">		<span class="keyword">if</span>(Thread.currentThread()==zhangWorker)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">try</span>&#123;</span><br><span class="line">					i++;</span><br><span class="line">					System.out.println(zhangWorker.getName()+<span class="string">&quot;已搬运了&quot;</span>+i+<span class="string">&quot;箱苹果\n&quot;</span>);</span><br><span class="line">					<span class="keyword">if</span>(i==<span class="number">3</span>)</span><br><span class="line">					     <span class="keyword">return</span>;</span><br><span class="line">					Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">				&#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">					System.out.println(boss.getName()+<span class="string">&quot;让&quot;</span>+zhangWorker.getName()+<span class="string">&quot;继续工作&quot;</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Thread.currentThread()==wangWorker)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">try</span>&#123;</span><br><span class="line">					j++;</span><br><span class="line">					System.out.println(wangWorker.getName()+<span class="string">&quot;已搬运了&quot;</span>+j+<span class="string">&quot;箱香蕉\n&quot;</span>);</span><br><span class="line">					<span class="keyword">if</span>(j==<span class="number">3</span>)</span><br><span class="line">					    <span class="keyword">return</span>;</span><br><span class="line">					Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">				&#125;<span class="keyword">catch</span>(InterruptedException e)&#123;</span><br><span class="line">					System.out.println(boss.getName()+<span class="string">&quot;让&quot;</span>+wangWorker.getName()+<span class="string">&quot;继续工作&quot;</span>);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Thread.currentThread()==boss)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				zhangWorker.interrupt();</span><br><span class="line">				wangWorker.interrupt();</span><br><span class="line">				<span class="keyword">if</span>(!(wangWorker.isAlive()||zhangWorker.isAlive())) </span><br><span class="line">				&#123;</span><br><span class="line">					System.out.printf(boss.getName()+<span class="string">&quot;说：可以下班了&quot;</span>);</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WorkExample</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		Work work=<span class="keyword">new</span> Work();</span><br><span class="line">		work.zhangWorker.start();</span><br><span class="line">		work.wangWorker.start();</span><br><span class="line">		work.boss.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h3><p>关键字：<strong>synchronized</strong> </p>
+<p> 一个方法使用关键字synchronized修饰后，如果某个线程获得CPU的使用权去使用该方法，CPU会让它执行完同步方法中的所有任务，<strong>在这期间，CPU不会把时间片分配给其他也要使用同步方法的线程</strong>当一个线程在使用同步方法的过程中，需要借助其他线程才能完成任务时，可以在同步方法中使用<strong>wait()方法</strong>使本线程让出CPU的使用权，并允许其它线程使用这个同步方法<br>其他线程使用完同步方法之后，使用**notify()<strong>（正在等待的只有一个线程）或者</strong>notifyAll()**（正在等待的有多个线程）通知处于等待中的线程结束等待</p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RWthread</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		String readName=<span class="string">&quot;读线程&quot;</span>,writeName=<span class="string">&quot;写线程&quot;</span>;</span><br><span class="line">		ReadWrite rw=<span class="keyword">new</span> ReadWrite(readName,writeName);</span><br><span class="line">		Thread read,write;</span><br><span class="line">		read=<span class="keyword">new</span> Thread(rw);</span><br><span class="line">		write=<span class="keyword">new</span> Thread(rw);</span><br><span class="line">		read.setName(readName);</span><br><span class="line">		write.setName(writeName);</span><br><span class="line">		read.start();</span><br><span class="line">		write.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReadWrite</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	String ID=<span class="keyword">null</span>;</span><br><span class="line">	String name=<span class="keyword">null</span>;</span><br><span class="line">	String readName,writeName;</span><br><span class="line">	<span class="keyword">boolean</span> flag=<span class="keyword">false</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ReadWrite</span><span class="params">(String s1,String s)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		readName=s1;</span><br><span class="line">		writeName=s;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		readOrWrite(); </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">readOrWrite</span><span class="params">()</span> <span class="comment">//同步方法</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(Thread.currentThread().getName().equals(readName)) </span><br><span class="line">		&#123;</span><br><span class="line">			Scanner reader=<span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(flag)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">try</span>&#123;</span><br><span class="line">						wait();</span><br><span class="line">					&#125;<span class="keyword">catch</span>(InterruptedException e)&#123;&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				System.out.println(<span class="string">&quot;请输入学号：&quot;</span>);</span><br><span class="line">				ID=reader.nextLine();</span><br><span class="line">				<span class="keyword">if</span>(ID.equals(<span class="string">&quot;finish&quot;</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					System.out.println(<span class="string">&quot;\n读线程和写线程工作结束！&quot;</span>);</span><br><span class="line">					flag=<span class="keyword">true</span>;</span><br><span class="line">					notify();</span><br><span class="line">					reader.close();</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				&#125;</span><br><span class="line">				System.out.println(<span class="string">&quot;请输入姓名：&quot;</span>);</span><br><span class="line">				name=reader.nextLine();</span><br><span class="line">				flag=<span class="keyword">true</span>;</span><br><span class="line">				notify();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Thread.currentThread().getName().equals(writeName))</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">while</span>(<span class="keyword">true</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">if</span>(!flag)</span><br><span class="line">				&#123;</span><br><span class="line">					<span class="keyword">try</span>&#123;</span><br><span class="line">						wait();</span><br><span class="line">					&#125;<span class="keyword">catch</span>(InterruptedException e)&#123;&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(ID.equals(<span class="string">&quot;finish&quot;</span>))</span><br><span class="line">					<span class="keyword">return</span>;</span><br><span class="line">				System.out.println(<span class="string">&quot;\n输出学号：&quot;</span>+ID+<span class="string">&quot;，输出姓名：&quot;</span>+name);</span><br><span class="line">				System.out.println();</span><br><span class="line">				flag=<span class="keyword">false</span>;</span><br><span class="line">				notify();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="线程联合"><a href="#线程联合" class="headerlink" title="线程联合"></a>线程联合</h3><p>线程thread1在运行期间联合线程thread2，语句如下（注意，是被联合的线程调用join方法）：</p>
+<p>​                                                                        <strong>thread2.join();</strong></p>
+<p>如果线程thread1在运行期间联合了线程thread2</p>
+<p><img src="image-20191211181313608.png" alt="image-20191211181313608"></p>
+<p>如果线程thread1联合线程thread2时，线程thread2已经消亡，则thread2.join()不会产生任何效果</p>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JoinThread</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	Thread 运货司机,装运工,仓库管理员;</span><br><span class="line">	String step[]=&#123;<span class="string">&quot;打开车锁&quot;</span>,<span class="string">&quot;把握方向盘&quot;</span>,<span class="string">&quot;挂挡&quot;</span>,<span class="string">&quot;踩油门&quot;</span>,<span class="string">&quot;开车&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">	JoinThread()</span><br><span class="line">	&#123;</span><br><span class="line">		运货司机=<span class="keyword">new</span> Thread(<span class="keyword">this</span>);</span><br><span class="line">		装运工=<span class="keyword">new</span> Thread(<span class="keyword">this</span>);</span><br><span class="line">		仓库管理员=<span class="keyword">new</span> Thread(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">		运货司机.setName(<span class="string">&quot;运货司机&quot;</span>);</span><br><span class="line">		装运工.setName(<span class="string">&quot;装运工&quot;</span>);</span><br><span class="line">		仓库管理员.setName(<span class="string">&quot;仓库管理员&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(Thread.currentThread()==运货司机)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">			&#125;<span class="keyword">catch</span>(InterruptedException ee)&#123; &#125;</span><br><span class="line"></span><br><span class="line">			System.out.println(运货司机.getName()+<span class="string">&quot;等&quot;</span>+装运工.getName()+<span class="string">&quot;装货&quot;</span>);</span><br><span class="line">			装运工.start();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				装运工.join();</span><br><span class="line">			&#125; <span class="keyword">catch</span>(InterruptedException e) &#123; &#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;step.length;i++)</span><br><span class="line">			&#123;</span><br><span class="line">				System.out.println(运货司机.getName()+step[i]);</span><br><span class="line"></span><br><span class="line">				<span class="keyword">try</span>&#123;</span><br><span class="line">					Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">				&#125;<span class="keyword">catch</span>(InterruptedException ee)&#123; &#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Thread.currentThread()==装运工)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">			&#125;<span class="keyword">catch</span>(InterruptedException ee)&#123; &#125;</span><br><span class="line"></span><br><span class="line">			System.out.println(装运工.getName()+<span class="string">&quot;等&quot;</span>+仓库管理员.getName()+<span class="string">&quot;开门&quot;</span>);</span><br><span class="line">			仓库管理员.start();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				仓库管理员.join();</span><br><span class="line">			&#125;<span class="keyword">catch</span>(InterruptedException e)&#123; &#125;</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">10</span>;i++) </span><br><span class="line">			&#123;</span><br><span class="line">				System.out.println(装运工.getName()+<span class="string">&quot;搬运第&quot;</span>+i+<span class="string">&quot;箱货物到货车&quot;</span>);</span><br><span class="line">				<span class="keyword">try</span>&#123;</span><br><span class="line">					Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">				&#125;<span class="keyword">catch</span>(InterruptedException ee)&#123; &#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(Thread.currentThread()==仓库管理员)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">			&#125;<span class="keyword">catch</span>(InterruptedException ee)&#123; &#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">5</span>;i++)</span><br><span class="line">			&#123;</span><br><span class="line">				System.out.println(仓库管理员.getName()+<span class="string">&quot;打开第&quot;</span>+i+<span class="string">&quot;道门&quot;</span>) ;</span><br><span class="line">				<span class="keyword">try</span>&#123;</span><br><span class="line">					Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">				&#125;<span class="keyword">catch</span>(InterruptedException ee)&#123; &#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JoinExample</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		JoinThread  a=<span class="keyword">new</span> JoinThread();</span><br><span class="line">		a.运货司机.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p><img src="image-20191211182050511.png" alt="image-20191211182050511"></p>
+<p>例如java垃圾回收线程，当所有线程结束时，回收线程才能结束运行。</p>
+
+
+                <hr>
+
+                
+
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/2020/01/15/Latex下载地址及使用教程/" data-toggle="tooltip" data-placement="top" title="LaTex下载网址及使用教程">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/2019/12/27/web实现前后端分离原理/" data-toggle="tooltip" data-placement="top" title="web学习笔记|前后端分离理解">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+            </div>
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Java" title="Java">Java</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="http://blog.kaijun.rocks" target="_blank">Kaijun&#39;s Blog</a></li>
+                    
+                        <li><a href="http://huangxuan.me" target="_blank">Hux Blog</a></li>
+                    
+                        <li><a href="#" target="_blank">Foo</a></li>
+                    
+                        <li><a href="#" target="_blank">Bar</a></li>
+                    
+                        <li><a href="#" target="_blank">Example Friends</a></li>
+                    
+                        <li><a href="#" target="_blank">It helps SEO</a></li>
+                    
+                </ul>
+                
+            </div>
+
+        </div>
+    </div>
+</article>
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "hexo-theme-huxblog";
+    var disqus_identifier = "https://wzc-blog.github.io/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/";
+    var disqus_url = "https://wzc-blog.github.io/2020/01/15/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                    <li>
+                        <a target="_blank" href="https://twitter.com/Demonbane_x">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/wang-wei-1-15-8">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="http://weibo.com/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/demonbane.cn">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/wzc-blog">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.instagram.com/in/6363559199">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Wzc&#39;s Blog 2021 
+                    <br>
+                    Theme by <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    Ported by <a href="#">wzc</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=wzc-blog&repo=hexo-theme-huxblog&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://wzc-blog.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-49627206-1';
+    var _gaDomain = 'huangxuan.me';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = '4cc1f2d8f3067386cc5cdb626a202900';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;    
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="https://wzc-blog.github.io/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
