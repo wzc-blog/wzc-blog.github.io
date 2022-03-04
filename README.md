@@ -1,1 +1,1 @@
-# wzc-blog.github.io
+http://wzc-blog.github.io
